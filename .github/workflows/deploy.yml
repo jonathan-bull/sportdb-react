@@ -15,6 +15,7 @@ jobs:
         with:
           host: ${{ secrets.DO_ADDRESS }}
           username: ${{ secrets.DO_USER }}
+          passphrase: ${{ secrets.DO_PASS }}
           key: ${{ secrets.DO_SSH_KEY }}
           script: |
             cd ${{ secrets.DO_PROJECT_FOLDER }}
