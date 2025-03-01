@@ -18,8 +18,11 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           script: |
             cd ${{ secrets.DO_PROJECT_FOLDER }}
+            git fetch
+            git checkout master
             git pull
             yarn install
             yarn build
             pm2 list
+            pm2 delete sportdb-react
             pm2 start yarn --name sportdb-react -- start
