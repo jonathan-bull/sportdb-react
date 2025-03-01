@@ -2,11 +2,12 @@ import '@mantine/core/styles.css';
 
 import React from 'react';
 import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
-import { theme } from '../theme';
+import { SiteLayout } from '@/components/furniture/SiteLayout/SiteLayout';
+import { resolver, theme } from '../theme';
 
 export const metadata = {
-  title: 'Mantine Next.js template',
-  description: 'I am using Mantine with Next.js!',
+  title: 'solving.football',
+  description: 'A modest attempt to document, analyse and solve the sport of association football',
 };
 
 export default function RootLayout({ children }: { children: any }) {
@@ -21,7 +22,9 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme} cssVariablesResolver={resolver}>
+          <SiteLayout>{children}</SiteLayout>
+        </MantineProvider>
       </body>
     </html>
   );
