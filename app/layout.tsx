@@ -1,8 +1,18 @@
 import '@mantine/core/styles.css';
 
 import React from 'react';
-import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
-import { theme } from '../theme';
+import {
+  AppShell,
+  AppShellHeader,
+  AppShellMain,
+  ColorSchemeScript,
+  mantineHtmlProps,
+  MantineProvider,
+  Stack,
+} from '@mantine/core';
+import { SiteHeader } from '@/components/furniture/SiteHeader/SiteHeader';
+import { resolver, theme } from '../theme';
+import classes from './layout.module.css';
 
 export const metadata = {
   title: 'Mantine Next.js template',
@@ -21,7 +31,18 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme} cssVariablesResolver={resolver}>
+          <AppShell>
+            <AppShellHeader className="app__header" withBorder={false} bg="white" c="black">
+              <SiteHeader />
+            </AppShellHeader>
+            <AppShellMain className={classes.main}>
+              <Stack align="stretch" justify="flex-start" gap="md">
+                {children}
+              </Stack>
+            </AppShellMain>
+          </AppShell>
+        </MantineProvider>
       </body>
     </html>
   );
