@@ -34,9 +34,9 @@ export function SiteLayout(props: LayoutProps) {
         <Container w="100%" mt="xs" mb="xs">
           <Flex justify="space-between" align="center">
             <Burger color="black" opened={opened} onClick={toggle} aria-label="Toggle navigation" />
-            <Text className={classes.title} size="lg">
+            <Text className={classes.title} size="sm">
               <Anchor c="black" href="/">
-                solving.football
+                solving football
               </Anchor>
             </Text>
             <ColorSchemeToggle />
