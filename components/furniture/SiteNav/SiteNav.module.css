@@ -1,0 +1,4 @@
+.label:hover {
+    --mantine-color-gray-0: var(--mantine-color-white);
+    color: var(--mantine-color-black);
+}
