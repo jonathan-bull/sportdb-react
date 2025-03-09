@@ -19,7 +19,7 @@ jobs:
           script: |
             cd ${{ secrets.DO_PROJECT_FOLDER }}
             git fetch
-            git checkout master
+            git checkout main
             git pull
             yarn install
             yarn build
