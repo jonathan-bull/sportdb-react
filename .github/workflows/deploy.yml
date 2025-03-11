@@ -21,8 +21,14 @@ jobs:
             git fetch
             git checkout main
             git pull
+            touch .env
+            echo API_URL=${{ secrets.API_URL }} >> .env
+            echo API_KEY=${{ secrets.API_KEY }} >> .env
+            echo NEXT_PUBLIC_ASSET_URL=${{ secrets.NEXT_PUBLIC_ASSET_URL }} >> .env
+            cat .env
             yarn install
             yarn build
+            yarn storybook:build
             pm2 list
             pm2 delete sportdb-react
             pm2 start yarn --name sportdb-react -- start

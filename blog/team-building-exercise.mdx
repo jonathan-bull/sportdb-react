@@ -1,0 +1,253 @@
+---
+title: 'Team building exercise'
+description: 'Rendering simple data received from the API'
+publishDate: '2025-04-28T08:30:00Z'
+published: true
+---
+
+import { SingleContentTitle } from '@/components/football/content/SingleContentTitle/SingleContentTitle';
+
+# Team building exercise
+
+We have a site. We have an API. Now we need to connect one with the other.
+
+I've picked teams to begin with, as they're the basis of pretty much everything else we're going to build. Fixtures involve two teams, competitions are made up of multiple teams and people are typically attached to at least one team.
+
+So, the aim here is to build:
+- a means of querying the API and returning data
+- a list of multiple teams with simple data
+- a single team page, giving more detail about a team
+
+## Old To Begin
+
+As mentioned in [previous blogs](/posts/hello-world), I've had an API for a while. Most recently, I've switched from using Flask-API to [Fast API](https://fastapi.tiangolo.com/) and rewrote things to be a bit more performant. It's restricted via an API key and rate limited by the excellently named Fast API addon, [Slow API](https://slowapi.readthedocs.io/en/latest/).
+
+I've not needed to do much with it as part of this work, but I did add in some automated deployment, thanks to what I learnt from deploying this app to my DigitalOcean droplet.
+
+Hopefully, it's visible in [the documentation](https://api.solving.football/docs), but my API has:
+- a `/teams/` route - returning all teams based on any limits, paging and querying passed
+- a `/teams/single/<id>` route - returning a single team based on the ID
+
+Both routes give a similar response: a `teams` array containing individual team items.
+
+Each individual team response contains:
+- `id` - a unique number identifying our team
+- `name` - a simple team name
+- `logo` - a URL for the team's logo
+- `type` - whether the team is a club or a nation
+- `colours` - an array of colours associated to the team
+- `competitionHistory` - an array of competitions the team has appeared in
+- `leagueTable` - an object containing the team's current competition and their position in it
+- `mapping` - an array of IDs the team has in other sources
+- `names` - an array containing various names associated with the team
+
+This is a lot of information - too much, especially on the multiple team route, if we're honest. 
+
+What it gives us is a solid, reusable structure of data that we can use to display data about individual teams and multiple teams at once.
+
+Now, we just need to get it out of the API.
+
+## Transport is Arranged
+
+There's going to be a lot of hitting the API, and it's going to be done fairly consistently. It's always going to hit the same base with some sort of extension. We're always going to need to pass the API key as a header, as well as a caching header to avoid spamming the server. Sometimes, we're going to pass query parameters as an object and make use of [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) to convert them to a string.
+
+With that fairly solidly planned out, it's time to build a `fetch` request wrapped in a `try` and `catch` condition.
+
+Typing a `fetch` request is tricky. I don't want to be overly specific and end up with errors from valid responses. I also don't want to be vague and use an `Any` type, otherwise, why bother with types at all? I've opted for a `JSONObject|Error` return from my function, with `JSONObject` following that old programming tradition: [stolen wholesale from a Stack Overflow question](https://stackoverflow.com/a/64117261).
+
+A few simple tests of this returned the expected data from the API. That'll do for now, I guess. There's no test coverage. Got a bit scared of where to even start with that. Decided to just plough on regardless and maybe come back to it another time.
+
+## Type Slowly
+
+The main advantage TypeScript brings is a deep knowledge of data in any context. This is a particular benefit to JavaScript, as many a simple script has broken a front end due to an undefined element. But it's especially helpful when dealing with complex but consistent data structures like, for example, the type you get from an API.
+
+The main disadvantage of TypeScript, though, is this is all a lot of effort, especially at the start. Much like testing, it improves the stability and reliability of the code base at the expense of how long it takes to make stuff.
+
+In this particular context, the advantages far outweight the disadvantages. Typing data that comes out of the API and goes into the React components means we can take something approaching an MVC approach. Our API logic can focus entirely on receiving data, passing it to a validator/controller. This means the amount of logic in our components is hugely reduced and only impacts rendering.
+
+With my generic `JSONObject` type ready, I built a variety of types based around the API's response to ensure that's consistent.
+
+## Major Leagues
+
+With Next.JS, it's nice and easy to set up a page based on the ID. We already do the same thing for these blog posts.
+
+On the page, we use the API to grab the data from the API and convert it into a sensible shape for our use in the page. 
+
+The main things we want to do is get a sensible display name and the team's current colours. Our `colours` object contains multiple RGB colours for each competition the team has been involved in, subject to availability.
+
+**Side note:** this is done by a script that picks the four most prominent colours in an image of a kit. This gets converted into RGB values and a split of how prominent colours are in the image. It's pretty neat.
+
+Throwing the raw API data into a converter reduces the logic we need to use in components and means we can loop through multiple teams.
+
+And the key component we need is a title that summarises the team.
+
+<SingleContentTitle 
+    nameDisplay='Cardiff City'
+    nameCode='CDF'
+    colourBackground='#00f'
+    colourText='#fff'
+    detailStart='1st'
+    detailEnd='the Premier League 2024/2025'
+    image='https://dlskitshub.com/wp-content/uploads/Cardiff-City-FC-Logo-PNG-DLS.png'
+/>
+
+The top half displays the team, the lower displays a summary of their current state. We can also pass colours, flipping them when switching between dark and light modes.
+
+That's the happy path, where all of the data exists, but it's reasonable that none of the data exists. 
+
+In this instance, we use default colours and do not display the 'detail' section at all.
+
+<SingleContentTitle 
+    nameDisplay='Cardiff City'
+/>
+
+## Two States
+
+In order to navigate through the teams, there needs to be a landing page. Again, that's nice and easy to set up, as we just hit the plain `/teams` route to get data. In order to keep things relatively performant, we limit to 10 teams by default.
+
+Since we have the same data returned, we can process it in the same way and receive the same data used in the component built for the individual team page. That means, we can create a list by iterating over the data and passing it into our existing component.
+
+By default, it's a bit too tall to be used in a list. The more information on the page at once the better, in this context.
+
+So, with some additional styling and a `size` prop set to `small`, there's a variation.
+
+import { Stack } from '@mantine/core';
+
+<Stack gap="xs" mb="lg">
+    <SingleContentTitle 
+        nameDisplay='Cardiff City'
+        nameCode='CDF'
+        colourBackground='#00f'
+        colourText='#fff'
+        detailStart='1st'
+        detailEnd='the Premier League 2024/2025'
+        image='https://dlskitshub.com/wp-content/uploads/Cardiff-City-FC-Logo-PNG-DLS.png'
+        size='small'
+    />
+
+    <SingleContentTitle 
+        nameDisplay='Swansea City'
+        nameCode='SWA'
+        colourBackground='#fff'
+        colourText='#000'
+        detailStart='2nd'
+        detailEnd='the Premier League 2024/2025'
+        image='https://i2-prod.walesonline.co.uk/incoming/article15179090.ece/ALTERNATES/s615b/0_old-logo.png'
+        size='small'
+    />
+
+    <SingleContentTitle 
+        nameDisplay='Wrexham'
+        nameCode='WRE'
+        colourBackground='#f00'
+        colourText='#fff'
+        detailStart='3rd'
+        detailEnd='the Premier League 2024/2025'
+        image='https://toptensfun.s3.eu-south-1.amazonaws.com/photos/user_1/Top%2010%20Best%20Soccer%20Clubs%20Playing%20in%20Leagues%20of%20Another%20Country/Wrexham-AFC-logo.png'
+        size='small'
+    />
+</Stack>
+
+This is a bit wide, though. It's probably better to have this as a card, so three or four can be shown in a single row. Ideally, it'll be something that can be switched between too.
+
+
+## Brighten the Corners
+
+Thanks to Storybook, it's nice and easy to see the component in isolation. By stripping the component of its context, the edge cases become much clearer. And in using stories with different arguments, testing those edge cases is simple. 
+
+For example, we can add very long details:
+
+<SingleContentTitle 
+    nameDisplay='Cardiff City'
+    nameCode='CDF'
+    colourBackground='#00f'
+    colourText='#fff'
+    detailStart='1st'
+    detailEnd='First Annual Montgomery Burns Award for Outstanding Achievement in the Field of Excellence'
+    image='https://dlskitshub.com/wp-content/uploads/Cardiff-City-FC-Logo-PNG-DLS.png'
+/>
+
+And very long team names:
+
+<SingleContentTitle 
+    nameCode='Borussia Mönchengladbach'
+    nameDisplay='Borussia Mönchengladbach'
+    detailStart='9th'
+    detailEnd='the Bundesliga'
+    image='https://www.bundesliga.com/assets/clublogo/DFL-CLU-000004.svg'
+/>
+
+This also takes SVGs. I hadn't even found that out until now. Nice one, Mantine.
+
+Test driving components in context can be tricky - forcing various types of objects into your component and seeing what it does. With Storybook, it's a case of deleting or changing arguments passed through. When the barrier to testing is that low, it's rude not to try everything possible combination.
+
+At some point, it might even be worth building fixtures to throw into the components. Maybe not at this early stage, though.
+
+## Grave Architecture
+
+Throwing things at the component in Storybook made it much more flexible. That flexibility got me thinking about other possibilities.
+
+There's going to be a lot more 'list' contexts in this project. There's going to be lists of people and lists of competitions. There will also be competition tables and fixture lists, but those contexts are different enough to warrant unique components.
+
+Displaying competitions and people, though, could be handled by the same component. That applies to their own pages and within lists too.
+
+So, with some refactoring, it was possible to expand the component somewhat. The bulk of the work involved any time I'd used `team` and converting the separator between a team's position and its current competition. This led to even less logic living in the component.
+
+And as a result, we can list people:
+
+<SingleContentTitle 
+    nameCode='AR'
+    nameDisplay='Aaron Ramsey'
+    image='https://www.fifarosters.com/assets/players/fifa24/faces/186561.png'
+    detailStart='Attacking midfielder'
+    detailEnd='Cardiff City and Wales'
+    detailSeparator='for'
+/>
+
+As well as competitions:
+
+<SingleContentTitle 
+    nameCode='EPL'
+    nameDisplay='The Premier League'
+    image='https://logodownload.org/wp-content/uploads/2016/03/premier-league-5.png'
+    detailStart='First tier competition'
+    detailEnd='England'
+    detailSeparator='in'
+    size='small'
+/>
+
+No pages for either of those yet. We'll come to those another time.
+
+## Harness Your Hopes
+
+So, that's an API connection complete and some basic functionality in place. I've made: 
+- a component for handling team, then rebuilt it so it's reusable in a number of sensible contexts
+- some [Storybook stories](https://storybook.solving.football/) that push the edges of the component
+- a [team page](/teams/414) that shows some simple information about a team
+- a [team list page](/teams) that gets a limited amount of data from the API and renders it on the page
+- this write up of the whole adventure
+
+You'd hope I'd be pleased with this, but not quite. What stands out most is what's not worked:
+
+- test coverage is a bit shallow where it does exist
+- no component testing
+- the API request function mostly covers the happy path
+- it would be nice if that 'team' component had a separate 'card' or 'grid' layout
+- the list layout doesn't handle pagination
+- using Pavement song titles as headings has been a bit forced at times here
+
+Writing these things up after the fact , coupled with a lifetime of pessimism, makes these shortcomings stand out. I can't shake the feeling anyone looking at this might think 'is that it?'.
+
+But sometimes software development is just throwing _something_ into production. 
+
+I've built something. It's not perfect, but it's on the internet. I could spend significantly more time making it something I'm happy with, but not releasing anything that whole time. Perfect is the enemy of good, and all that.
+
+So, what we have are more foundations.
+
+The team page shows some basic team data. It is missing details like current squad members, fixtures, historic competition involvement and so on. But it does display some basics. Plenty of room for improvement.
+
+The team list shows a number of teams. It's missing pagination, filters and searching. But it does list teams from the API and the overall structure can be reused for other contexts like listing competitions and people.
+
+At these early stages, it's more difficult to limit scope. The possibilities and opportunitues are so broad. It's incredibly easy to get lost by digging deeply into one narrow element. On occasion, it's fun too.
+
+So, next time, the focus is going to be really limited and narrow. The team page is going to get some kit displays. It's going to have a dropdown for selecting each competition and it's going to handle data being missing.
