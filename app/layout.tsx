@@ -15,12 +15,12 @@ export default function RootLayout({ children }: { children: any }) {
   return (
     <html lang="en" {...mantineHtmlProps}>
       <head>
-        <ColorSchemeScript />
+        <ColorSchemeScript defaultColorScheme="auto" />
         <link rel="shortcut icon" href="/favicon.svg" />
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </head>
       <body>
-        <MantineProvider theme={theme} cssVariablesResolver={resolver}>
+        <MantineProvider defaultColorScheme="auto" theme={theme} cssVariablesResolver={resolver}>
           <SiteLayout>{children}</SiteLayout>
         </MantineProvider>
       </body>
