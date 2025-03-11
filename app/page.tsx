@@ -10,7 +10,10 @@ export default function HomePage() {
         A modest attempt to document, analyse and solve the sport of association football
       </Text>
       <Text ta="center" mt="xl" size="lg">
-        Teams | People | Competitions | Statistics |{' '}
+        <Anchor fw={500} underline="always" href="/teams">
+          Teams
+        </Anchor>{' '}
+        | People | Competitions | Statistics |{' '}
         <Anchor fw={500} underline="always" href="/posts">
           Posts
         </Anchor>
