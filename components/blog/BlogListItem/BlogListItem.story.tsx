@@ -1,8 +1,17 @@
+import type { Meta } from '@storybook/react';
+import { Container } from '@mantine/core';
 import { BlogListItem } from './BlogListItem';
 
-export default {
-  title: 'BlogListItem',
+const meta: Meta = {
+  title: 'Blog list item',
   component: BlogListItem,
+  decorators: [
+    (Story) => (
+      <Container my="md">
+        <Story />
+      </Container>
+    ),
+  ],
   args: {
     slug: 'hello-world',
     title: 'Hello world!',
@@ -12,15 +21,19 @@ export default {
   },
 };
 
-export const Default = {};
+export default meta;
+
+export const Default = meta;
 
 export const LongTitle = {
+  ...meta,
   args: {
     title: 'Doctor Storybook or: How I Learned to Stop Worrying and Love Component Testing',
   },
 };
 
 export const LongDescription = {
+  ...meta,
   args: {
     // Moby Dick is public domain.
     description:
@@ -29,18 +42,21 @@ export const LongDescription = {
 };
 
 export const NoDate = {
+  ...meta,
   args: {
     publishDate: null,
   },
 };
 
 export const NoSlug = {
+  ...meta,
   args: {
     slug: null,
   },
 };
 
 export const Unpublished = {
+  ...meta,
   args: {
     published: false,
   },

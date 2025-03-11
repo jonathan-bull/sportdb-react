@@ -23,6 +23,7 @@ jobs:
             git pull
             yarn install
             yarn build
+            yarn storybook:build
             pm2 list
             pm2 delete sportdb-react
             pm2 start yarn --name sportdb-react -- start
