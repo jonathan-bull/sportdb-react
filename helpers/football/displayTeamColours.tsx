@@ -7,12 +7,13 @@ type displayColour = {
 
 export const displayTeamColours = (
   colours: TeamColours,
+  colourMode: 'light' | 'dark',
   compID: number | null = null,
   colourType: 'home' | 'away' | 'third' = 'home'
 ): displayColour => {
   const defaultResponse = {
-    text: 'black',
-    background: 'white',
+    text: colourMode === 'light' ? 'white' : 'black',
+    background: colourMode === 'light' ? 'black' : 'white',
   };
 
   const colourKeys = Object.keys(colours);
@@ -23,8 +24,14 @@ export const displayTeamColours = (
 
   if (compID !== null && compID in colourKeys) {
     return {
-      text: colours[compID][colourType][4].val,
-      background: colours[compID][colourType][1].val,
+      text:
+        colourMode === 'light'
+          ? colours[compID][colourType][1].val
+          : colours[compID][colourType][4].val,
+      background:
+        colourMode === 'light'
+          ? colours[compID][colourType][4].val
+          : colours[compID][colourType][1].val,
     };
   }
 
@@ -35,7 +42,13 @@ export const displayTeamColours = (
   }
 
   return {
-    text: colours[lastKey][colourType][4].val,
-    background: colours[lastKey][colourType][1].val,
+    text:
+      colourMode === 'light'
+        ? colours[lastKey][colourType][4].val
+        : colours[lastKey][colourType][1].val,
+    background:
+      colourMode === 'light'
+        ? colours[lastKey][colourType][1].val
+        : colours[lastKey][colourType][4].val,
   };
 };

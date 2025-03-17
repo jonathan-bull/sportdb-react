@@ -1,6 +1,9 @@
-import { Container, Title } from '@mantine/core';
-import { apiRequest } from '@/app/api-request';
-import { SingleTeam } from '@/components/football/team/SingleTeam/SingleTeam';
+import { Container, Stack, Title } from '@mantine/core';
+import { SingleTeamMain } from '@/components/football/team/SingleTeam/SingleTeamMain';
+import { SingleTeamMapping } from '@/components/football/team/SingleTeam/SingleTeamMapping';
+import { SingleTeamNames } from '@/components/football/team/SingleTeam/SingleTeamNames';
+import { SingleTeamStandings } from '@/components/football/team/SingleTeam/SingleTeamStandings';
+import { apiRequest } from '@/helpers/api/api-request';
 import { Teams } from '@/types/api/Teams';
 
 type teamParams = Promise<{ id: string }>;
@@ -41,13 +44,25 @@ export default async function TeamPage({ params }: { params: teamParams }) {
 
   return (
     <>
-      <Container w="100%">
-        <SingleTeam
-          names={singleTeam.names}
-          leagueTable={singleTeam.leagueTable}
-          mapping={singleTeam.mapping}
-          colours={singleTeam.colours}
-        />
+      <Container w="100%" mt="sm" mb="sm">
+        <Stack>
+          <SingleTeamMain
+            names={singleTeam.names}
+            leagueTable={singleTeam.leagueTable}
+            mapping={singleTeam.mapping}
+            colours={singleTeam.colours}
+          />
+          <SingleTeamStandings />
+          <SingleTeamNames
+            full={singleTeam.names.full}
+            short={singleTeam.names.short}
+            display={singleTeam.names.display}
+            shortAlt={singleTeam.names.shortAlt}
+            code={singleTeam.names.code}
+            nickName={singleTeam.names.nickName}
+          />
+          <SingleTeamMapping teamMapping={singleTeam.mapping} />
+        </Stack>
       </Container>
     </>
   );
