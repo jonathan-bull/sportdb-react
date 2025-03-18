@@ -13,14 +13,13 @@ jobs:
   test_pull_request:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
-          cache-dependency-path: '**/yarn.lock'
       - name: Install dependencies
-        run: yarn
+        run: yarn install --immutable
       - name: Run build
         run: yarn run build
       - name: Run Prettier

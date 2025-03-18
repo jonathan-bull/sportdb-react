@@ -1,7 +1,7 @@
 import { Container, Grid, Title } from '@mantine/core';
 import { BlogBreadcrumb } from '@/components/blog/BlogBreadcrumb/BlogBreadcrumb';
 import { BlogList } from '@/components/blog/BlogList/BlogList';
-import { fetchPostData } from '@/post-helpers/fetchPostData';
+import { fetchPostData } from '@/helpers/blog/fetchPostData';
 
 export function generateMetadata() {
   return {

@@ -1,4 +1,4 @@
-import { Anchor, GridCol, Paper, Text, Title } from '@mantine/core';
+import { Anchor, Card, GridCol, Text, Title } from '@mantine/core';
 import { MetadataObj } from '@/types/MetadataObj';
 
 type BlogListProps = {
@@ -20,7 +20,7 @@ export function BlogList(props: BlogListProps) {
 
   return (
     <GridCol span={{ base: 12, sm: 6, lg: 4 }} mb="xl">
-      <Paper bg="white" c="black" p="lg">
+      <Card c="black">
         <Anchor c="black" href={`/posts/${postItem.slug}`}>
           <Title order={3} mb="lg">
             {postItem.title}
@@ -41,7 +41,7 @@ export function BlogList(props: BlogListProps) {
             Read more
           </Anchor>
         </Text>
-      </Paper>
+      </Card>
     </GridCol>
   );
 }
