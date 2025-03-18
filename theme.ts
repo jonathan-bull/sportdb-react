@@ -40,6 +40,11 @@ export const theme = createTheme({
       dark: 'customGreen',
       light: 'customBlue',
     }),
+    gray: virtualColor({
+      name: 'primary',
+      dark: 'customGreen',
+      light: 'customBlue',
+    }),
   },
   white: '#00af8b',
   black: '#0e14a0',
@@ -51,7 +56,6 @@ export const theme = createTheme({
     xl: rem(24),
   },
   headings: {
-    fontFamily: 'Monaco, Courier, monospace',
     sizes: {
       h1: { fontSize: rem(44) },
       h2: { fontSize: rem(40) },
