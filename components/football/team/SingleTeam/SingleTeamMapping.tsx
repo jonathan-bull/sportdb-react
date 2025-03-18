@@ -4,27 +4,21 @@ import { TeamMapping } from '@/types/api/Teams';
 export function SingleTeamMapping(props: { teamMapping: TeamMapping[] }) {
   const { teamMapping } = props;
 
-  // Filter out duplicate source names.
-  // Add an FM URL, only if source name exists.
-  // https://sortitoutsi.net/football-manager-2024/team/ [id] / [source name]
-
   // Filter out empty.
   const filteredMapping = teamMapping.filter((singleMap) => {
     return Object.hasOwn(singleMap, 'sourceName') && Object.hasOwn(singleMap, 'sourceID');
   });
 
-  console.dir(filteredMapping);
-
   const displayMapping = filteredMapping.map((singleMap) => (
     <Stack>
       <Flex columnGap="sm" justify="space-between" direction={{ base: 'column', sm: 'row' }}>
-        <Flex w="100%" justify="space-between">
+        <Flex w="100%" justify="space-between" align="center">
           <Text tt="uppercase" size="xs">
             Source
           </Text>
           <Text fw={700}>{singleMap.sourceName}</Text>
         </Flex>
-        <Flex w="100%" justify="space-between">
+        <Flex w="100%" justify="space-between" align="center">
           <Text tt="uppercase" size="xs">
             ID
           </Text>

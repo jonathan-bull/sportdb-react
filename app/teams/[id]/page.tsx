@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: teamParams }) {
   const id = (await params).id;
   const teamData: Teams = await apiRequest(`/teams/single/${id}`);
 
-  if (teamData.teams.length === 0) {
+  if (Object.hasOwn(teamData.teams) === false || teamData.teams.length === 0) {
     return {
       title: 'Error - team not found - solving football',
     };

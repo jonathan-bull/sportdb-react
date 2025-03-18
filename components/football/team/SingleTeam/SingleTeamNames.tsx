@@ -38,7 +38,7 @@ export function SingleTeamNames(props: TeamNames) {
   ];
 
   const nameList = nameData.map((singleName) => (
-    <Group key={singleName.key} justify="space-between">
+    <Group key={singleName.key} align="center" justify="space-between">
       <Text tt="uppercase" size="xs">
         {singleName.label}
       </Text>

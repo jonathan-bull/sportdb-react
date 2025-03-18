@@ -12,8 +12,8 @@ export const displayTeamColours = (
   colourType: 'home' | 'away' | 'third' = 'home'
 ): displayColour => {
   const defaultResponse = {
-    text: colourMode === 'light' ? 'white' : 'black',
-    background: colourMode === 'light' ? 'black' : 'white',
+    text: 'white',
+    background: 'transparent',
   };
 
   const colourKeys = Object.keys(colours);
