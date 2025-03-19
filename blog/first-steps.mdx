@@ -1,9 +1,96 @@
 ---
 title: 'First steps'
 description: 'Creating a simple site in Next.JS with a Markdown blog'
-publishDate: '2025-03-09T13:55:00Z'
+publishDate: '2025-03-19T13:55:00Z'
 ---
 
 # First steps
 
-WIP
+You can read this. That's good. It means I've built a functional blog in Next.JS that displays MDX content in a legible manner.
+
+### Here's one I made earlier
+
+I've not started from zero on this project. I've had a DigitalOcean droplet running for a few years. I've written Python scripts to scoop up football data on a daily basis and save it to a MariaDB database. There's also a FastAPI API exposing that data to the internet.
+
+While I've been using a [Quasar](https://quasar.dev) Vue.JS front end for a while, I wanted to start again using React and Next.JS.
+
+[Mantine](https://mantine.dev/) seemed like a pretty good, well documented component library that could do the same job as Quasar.  It's got some good [chart components](https://mantine.dev/charts/getting-started/) and examples of [combinations of its components](https://ui.mantine.dev/), including [statistics](https://ui.mantine.dev/category/stats/). Those should come in handy later on in the project.
+
+The [Next repo template](https://github.com/mantinedev/next-app-template) saves time spent configuing linting, testing, TypeScript and CSS. It's also got Storybook out of the box, which will be handy for testing components.
+
+So, with my repo ready to go, it's time to open up the IDE and write some code!
+
+### Put that in your pipe
+
+Well, maybe not quite yet.
+
+While I'll be making use of the linting tools when developing the site, I should also make use of it as a check on my pull requests. That way, the only bad thing that makes it to production will be the content of these blogs.
+
+The default [package.json](https://github.com/mantinedev/next-app-template/blob/master/package.json) file from our template comes with a bunch of commands that check the code.
+
+There is one `test` command that runs `prettier`, `lint`, `typecheck` and `jest` all in one go. While that's tempting, it doesn't show which check fails at a glance.
+
+Those jobs all run in the GitHub Action separately. One install step runs first, with caching to speed up repeated builds. It is possible to separate all of these jobs out into separate steps, but these tasks aren't large enough to benefit from parallel processing. Maybe that'll change in the future.
+
+The site is hosted on a DigitalOcean droplet. Thanks to the [appleboy/ssh-action](https://github.com/appleboy/ssh-action), it's possible to SSH into the droplet, pull down the latest version of the main branch and build the site.
+
+For security reasons, I've set up a specific user to manage the deployments with limited access to the droplet. The GitHub action also makes use of a bunch of secrets to avoid exposing any details to anyone looking through my repo.
+
+On the droplet, I'm using PM2 to serve the site. The GitHub Action deletes any existing job and starts a new one any time a deployment completes.
+
+So now, with a basic app set up, pull request checks and automated deployments, it's time to open up the IDE and write some code!
+
+### Next level
+
+As someone older than HTML itself, I can recall the days of building websites with FrontPage Express, writing raw HTML (mostly table tags) and loading it in the browser. Starting a project was incredibly easy until anything dynamic was involved. And you had to check for syntax errors by eye.
+
+For a while, it felt to me that things had moved far away from the days of quickly spinning up a new project. Getting started with Mantine, however, was super easy. After setting up my repo with their [app template](https://github.com/mantinedev/next-app-template), getting a start page took two commands:
+
+```
+yarn install
+yarn dev
+```
+
+There's nothing here that should be too shocking to anyone used to building modern websites, but it's still impressive to me to see this project reload on every file save, linting live in the IDE, running code checks and throwing errors. We've come a long way.
+
+### Putting it together
+
+Having used Quasar, I'm used to what Mantine has to offer. Throwing together the basic page layout hasn't proved too taxing. The components are well documented, with consistent props that offer plenty of flexibility.
+
+In terms of using Markdown, it was encouraging to see that [Mantine's own documentation site](https://help.mantine.dev/q/server-components) is [built using Markdown files](https://github.com/mantinedev/mantine/blob/0b7ccbfe061b4e07c83c14747e612c89507db3b8/apps/help.mantine.dev/src/pages/q/server-components.mdx).
+
+Next.JS has [some good documentation](https://nextjs.org/docs/app/building-your-application/configuring/mdx) on setting up Markdown, crucially involving an `mdx-components.tsx` file. Mantine components work nicely with this, with things like the [Title](https://mantine.dev/core/title/) component easily pulled in to handle all heading tags.
+
+The meat came from pulling through the files dynamically. The App router in Next.JS is relatively new - introduced in [March 2023](https://nextjs.org/blog/next-13-4#nextjs-app-router) - meaning online documentation still used the old Pages router. Luckily, internet searching still works well enough for me to find some [useful pointers](https://github.com/vercel/next.js/discussions/12151#discussioncomment-20678) and dynamically load in file data.
+
+And here we are. 
+
+This page is a layout that displays the contents of a Markdown file, including metadata. Breadcrumbs work. New blogs will dynamically get pulled into the list of posts. It's a working blog, built over a weekend.
+
+### Styling and theming
+
+I'm not much of a designer, but I know enough to appreciate that things I've designed myself, have _felt wrong_. It's why I've opted for a front end component library, rather than build everything myself.
+
+The theming and components out of the boxs look nice enough, if a _little_ boring.
+
+I've been looking to use [RandomA11y](https://randoma11y.com/) on a project for a while. It generates a random palette of two colours that contrast enough to conform to APCA standards. After bashing the 'Generate' button a few times, I found the blue and green pairing that you've found agreeable enough to read so far.
+
+### An apology
+
+There are no screenshots in this post. I apologise to people who prefer some visuals to break things up, but that's a deliberate choice.
+
+This post is about building this page. It felt like illustrating the construction of this page with images of this page be a bit weird. You'll just have to imagine this page with fewer bits on it and occasionally throwing an error.
+
+Sorry.
+
+### A major blocker
+
+At this point, I hit a significant hurdle that has derailed many a side project - I didn't want to write this. I wanted to make the cool stuff instead.
+
+It's a fairly natural instinct. I'm taking a break from my day job to essentially do more of my day job. That emphasises the highs and the lows. The draw of building some cool stuff is stronger and doing the admin taks feels even more like work.
+
+The initial plan was to have a publishing schedule that forced cracking through the tasks at a pretty steady clip. However, giving myself deadlines _for fun_ is a pretty solid path towards burning out and resenting this project.
+
+So, what I did was this: I gave in to that feeling and built the next step of the project before writing this blog. Having cool stuff to show off was the motivator I needed to come back and finish off this first stage.
+
+Next up: getting simple data out of my API. Spoilers: I think it's cool.
