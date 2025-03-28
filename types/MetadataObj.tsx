@@ -1,6 +1,7 @@
 export type MetadataObj = {
-  slug: string;
+  slug?: string;
   title?: string;
   publishDate?: string;
   description?: string;
+  published?: boolean;
 };

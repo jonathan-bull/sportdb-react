@@ -1,0 +1,4 @@
+yarn run prettier:check
+yarn run lint
+yarn run typecheck
+yarn run jest
