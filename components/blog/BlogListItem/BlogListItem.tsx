@@ -23,7 +23,7 @@ export function BlogListItem(props: BlogListItemProps) {
       <Card c="black" mb="md" className={classes.container}>
         <CardSection className={classes.section}>
           <Anchor c="black" href={`/posts/${slug}`}>
-            <Title order={3} mb="md">
+            <Title order={2} size="h3" mb="md">
               {title}
             </Title>
           </Anchor>
