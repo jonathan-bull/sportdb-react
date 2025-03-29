@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import matter from 'gray-matter';
-import { Container } from '@mantine/core';
+import { Container, Stack } from '@mantine/core';
 import { BlogBreadcrumb } from '@/components/blog/BlogBreadcrumb/BlogBreadcrumb';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -20,11 +20,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   ];
 
   return (
-    <>
+    <Stack>
       <BlogBreadcrumb breadcrumbItems={breadcrumbItems} />
       <Container w="100%">
         <MDXFile />
       </Container>
-    </>
+    </Stack>
   );
 }

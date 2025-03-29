@@ -1,6 +1,6 @@
-import { Container, Grid, Title } from '@mantine/core';
+import { Container, Title } from '@mantine/core';
 import { BlogBreadcrumb } from '@/components/blog/BlogBreadcrumb/BlogBreadcrumb';
-import { BlogList } from '@/components/blog/BlogList/BlogList';
+import BlogList from '@/components/blog/BlogList/BlogList';
 import { fetchPostData } from '@/helpers/blog/fetchPostData';
 
 export function generateMetadata() {
@@ -19,11 +19,7 @@ export default function PostsPage() {
       <BlogBreadcrumb breadcrumbItems={breadcrumbItem} />
       <Container w="100%">
         <Title mb="xl">Posts</Title>
-        <Grid grow>
-          {postData.map((singlePost) => (
-            <BlogList key={singlePost.slug} postItem={singlePost} />
-          ))}
-        </Grid>
+        <BlogList postList={postData} />
       </Container>
     </>
   );

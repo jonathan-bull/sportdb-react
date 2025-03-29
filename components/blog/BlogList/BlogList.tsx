@@ -1,47 +1,19 @@
-import { Anchor, Card, GridCol, Text, Title } from '@mantine/core';
+import { Grid, GridCol } from '@mantine/core';
 import { MetadataObj } from '@/types/MetadataObj';
+import { BlogListItem } from '../BlogListItem/BlogListItem';
 
-type BlogListProps = {
-  postItem: MetadataObj;
-};
+type BlogListProps = { postList: MetadataObj[] };
 
-const readableDate = (dateString: string): string => {
-  const dateObj = new Date(dateString);
-
-  return dateObj.toLocaleDateString('en-gb', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  });
-};
-
-export function BlogList(props: BlogListProps) {
-  const { postItem } = props;
+export default function BlogList(props: BlogListProps) {
+  const { postList } = props;
 
   return (
-    <GridCol span={{ base: 12, sm: 6, lg: 4 }} mb="xl">
-      <Card c="black">
-        <Anchor c="black" href={`/posts/${postItem.slug}`}>
-          <Title order={3} mb="lg">
-            {postItem.title}
-          </Title>
-        </Anchor>
-        {postItem.description && (
-          <Text size="lg" mb="lg">
-            {postItem.description}
-          </Text>
-        )}
-        {postItem.publishDate && (
-          <Text size="sm" mb="lg">
-            Published on {readableDate(postItem.publishDate)}
-          </Text>
-        )}
-        <Text mt="lg">
-          <Anchor c="black" href={`/posts/${postItem.slug}`} underline="always">
-            Read more
-          </Anchor>
-        </Text>
-      </Card>
-    </GridCol>
+    <Grid grow>
+      {postList.map((singlePost) => (
+        <GridCol key={singlePost.slug} span={{ base: 12, sm: 6, lg: 4 }} mb="xl">
+          <BlogListItem key={singlePost.slug} {...singlePost} />
+        </GridCol>
+      ))}
+    </Grid>
   );
 }
