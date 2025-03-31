@@ -10,7 +10,7 @@ export default function BlogList(props: BlogListProps) {
   return (
     <Grid grow>
       {postList.map((singlePost) => (
-        <GridCol key={singlePost.slug} span={{ base: 12, sm: 6, lg: 4 }} mb="xl">
+        <GridCol key={singlePost.slug} span={{ base: 12, sm: 6 }} mb="xl">
           <BlogListItem key={singlePost.slug} {...singlePost} />
         </GridCol>
       ))}

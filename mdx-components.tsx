@@ -1,6 +1,6 @@
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement } from 'react';
 import type { MDXComponents } from 'mdx/types';
-import { Anchor, Title, TitleOrder, TitleSize } from '@mantine/core';
+import { Anchor, Code, Title, TitleOrder } from '@mantine/core';
 
 /**
  * Guides I've been using:
@@ -12,13 +12,6 @@ import { Anchor, Title, TitleOrder, TitleSize } from '@mantine/core';
  * https://help.mantine.dev/q/apply-styles-to-all
  * https://andersdjohnson.com/posts/nextjs-static-mdx-dynamic-routes-metadata
  */
-
-interface TitleProps {
-  children: ReactNode;
-  order: TitleOrder;
-  size: TitleSize;
-  textWrap: 'wrap' | 'nowrap' | 'balance' | 'pretty' | 'stable';
-}
 
 /**
  * Creates a Title element containing the passed content.
@@ -35,6 +28,12 @@ const mdxTitle = (headerType: TitleOrder, props: any): ReactElement => {
   return <Title order={headerType}>{children}</Title>;
 };
 
+const mdxPre = (props: any): ReactElement => {
+  const { children } = props;
+
+  return <Code block>{children}</Code>;
+};
+
 export function MdxLink({ href, ...others }: React.ComponentPropsWithoutRef<'a'>) {
   return <Anchor underline="always" fw={500} href={href} {...others} />;
 }
@@ -48,6 +47,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     h5: (props) => mdxTitle(5, props),
     h6: (props) => mdxTitle(6, props),
     a: MdxLink,
+    code: Code as any,
+    pre: mdxPre,
     ...components,
   };
 }

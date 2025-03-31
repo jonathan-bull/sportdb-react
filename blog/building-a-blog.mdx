@@ -1,0 +1,130 @@
+---
+title: 'Building a blog'
+description: 'Creating a simple blog that displays Markdown data'
+publishDate: '2025-03-31T08:30:00Z'
+published: true
+---
+
+# Building a blog
+
+Previously, I set up a simple Mantine/Next.JS site that displays default data. In this post, I'm aiming to build a blog that displays Markdown posts.
+
+Truthfully, I built [the deployment process](/posts/first-steps) and the blog all in one go. But that original post was too long. 
+
+This does absolutely drain any suspense from the situation.
+
+## Marking it down
+
+As part of this project, I wanted to be able to quickly throw together simple progress reports. Markdown seemed a sensible enough choice for this, and Next.JS has [good documentation](https://nextjs.org/docs/app/building-your-application/configuring/mdx) on the topic.
+
+[Mantine's own documentation site](https://help.mantine.dev/q/server-components) makes use of [Markdown files](https://github.com/mantinedev/mantine/blob/0b7ccbfe061b4e07c83c14747e612c89507db3b8/apps/help.mantine.dev/src/pages/q/server-components.mdx). This proved to be a helpful reference repo when comparing against more Next.JS focussed documentation.
+
+The crucial element is the `mdx-components.tsx` file, which lists HTML elements with the React components to map against. 
+
+Mantine components work directly in a lot of circumstances. The [Title](https://mantine.dev/core/title/) component easily pulled in via a function that sets the `order` prop to match the heading size. `<code>` and `<pre>` tags to use the same [Code component](https://mantine.dev/core/code/) but with `<pre>` making use of the `block` prop.
+
+Along with automatically mapping standard elements, it's also possible to drop full components into the blog.
+
+import { Switch } from '@mantine/core';
+
+<Switch
+    label="Turn off my device"
+    description="The author takes no responsibility data lost on using this element"
+/>
+
+That means I get to show off my custom components right here in an interactive way. While screenshots and descriptions are helpful, they don't beat having the live component right here in the page.
+
+## Styling and theming
+
+I'm not much of a designer, but I know enough to appreciate that things I've designed myself, have _felt wrong_. It's why I've opted for a front end component library, rather than build everything myself.
+
+The theming and components out of the boxs look nice enough, if a _little_ boring.
+
+I've been looking to use [RandomA11y](https://randoma11y.com/) on a project for a while. It generates a random palette of two colours that contrast enough to conform to APCA standards. After bashing the 'Generate' button a few times, I found this blue and green pairing.
+
+You've managed to read this far, so it's probably not too bad.
+
+## Dynamic loading and metadata
+
+On the [Posts](/posts) page, I've dynamically pulled through the list of MDX files from the project's `/blog` folder.
+
+With Frontmatter - and [this excellent guide by Joseph Rex](https://www.josephrex.me/frontmatter-with-nextjs-and-mdx/) - my MDX files contain metadata which is processed both by the blog page and by the [Posts](/posts) page. This gives me a nice SEO friendly page header, as well as info I can filter on the [Posts](/posts) page.
+
+I've built some functionality that gathers my files, extracts the metadata and then filters based on `published` and orders by `publishDate`. This lets me write blogs in advance and then set them live with a very small pull request.
+
+This was also a nice excuse to add some unit testing to the project. While Jest is already set up and ready to go, it didn't have anything to do before this point. Throwing a bunch of unlikely edge cases at the function did uncover some logic shortcomings. Fixing those improved my original function. Testing: it makes things better!
+
+## Custom components
+
+To make the blog a bit more 'bloggy', I've added in:
+- BlogBreadcrumbs - an element that lists the current navigation route
+- BlogListItem - an element that displays metadata for a post and links to it
+
+The breadcrumbs make use of the base [Breadcrumb component](https://mantine.dev/core/breadcrumbs/), but with the 'home' link always included. There's nothing too exciting going on here.
+
+import { BlogBreadcrumb } from '@/components/blog/BlogBreadcrumb/BlogBreadcrumb';
+
+<BlogBreadcrumb 
+    breadcrumbItems={[{ href: "/posts", title: "Posts" }, { href: "/posts/first-steps", title: "First steps" },]} 
+/>
+
+The blog list element is also essentially a structured [Card component](https://mantine.dev/core/card/), populating with the respective prop data. Here they are in a grid to show even heights, even when data is missing.
+
+import { BlogListItem } from '@/components/blog/BlogListItem/BlogListItem';
+
+<BlogListItem 
+    title='Hello world!' 
+    description='This links to the first blog post' 
+    slug='hello-world' 
+    published={true}
+    publishDate='2025-03-01T00:00:00' 
+/>
+
+The card component doesn't have a style prop for spacing between elements, so I've used Mantine's support for [CSS modules](https://mantine.dev/styles/css-modules/) to add that in instead.
+
+import { Grid, GridCol } from '@mantine/core';
+
+<Grid grow>
+    <GridCol key={ 0 } span={{ base: 12, sm: 6, lg: 4 }} mb="xl">
+        <BlogListItem 
+            title='No description' 
+            slug='hello-world'
+            published={true}
+            publishDate='2025-03-01T00:00:00' 
+        />
+    </GridCol>
+    <GridCol key={ 1 } span={{ base: 12, sm: 6, lg: 4 }} mb="xl">
+        <BlogListItem 
+            title='No publish date'
+            description='This links to the first blog post'
+            slug='hello-world'
+            published={true}
+        />
+    </GridCol>
+</Grid>
+
+Again, this was a perfect excuse to use [Storybook](https://storybook.js.org/) to test the components. For those unfamiliar, Storybook renders web components in isolation. This allows for testing their apperance and functionality by using unexpected data, or leaving out data entirely.
+
+As with my back end functionality, the very act of putting the component in this context highlighted the shortcomings of my custom components. Rewriting those improved my components and their apperance in various contexts. Testing: it's good for your front end too!
+
+## Perfect scores
+
+With all of this in place, I deployed the blog with my ['Hello world!'](/posts/hello-world) post and ran it through Lighthouse checks.
+
+Next.js and Mantine are pretty well tuned for performance, and I've included metadata for SEO, so both of those scores 100 immediately.
+
+There was an initial few tweaks to be made around accessibility scores - in particular, the spacing around the links. I also wasn't respecting heading hierarchy for aesthetic reasons, which is not a good enough reason to mess with accessibility. 
+
+With those bits sorted, this site now gets the full 100 across the board.
+
+## I made a blog
+
+Thanks to how mature and well documented Next.JS and Mantine are, pulling together a static blog made up of Markdown files has been pretty easy. What's been encouraging is how powerful everything is out of the box. There's a lot in this initial build and from here on out, it should _Just Work_.
+
+Being able to embed components in MDX is incredibly powerful. While it's possible to describe what something does, or take a screenshot, it doesn't compare to actually having the element in the page.
+
+It's also been handy in writing this post. At times, the claims I've been making about components have been lies. Embedding the components in the page exposed them pretty cleanly. That gave me reason and motivation to make them work like I thought they did.
+
+Hopefully, the foundations are now solid enough for the forseeable. Inevitably I'm going to need some quality of life improvements (should there be a 'Next' and 'Previous' link at the bottom of these pages? Probably). This should take me where I need to go, though. 
+
+**Next time:** pulling simple data from my API into this app.

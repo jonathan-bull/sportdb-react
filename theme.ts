@@ -46,8 +46,6 @@ export const theme = createTheme({
       light: 'customBlue',
     }),
   },
-  white: '#00af8b',
-  black: '#0e14a0',
   fontSizes: {
     xs: rem(14),
     sm: rem(16),
@@ -85,6 +83,7 @@ export const resolver: CSSVariablesResolver = (theme) => ({
     '--mantine-color-white': theme.colors.customBlue[0],
     '--mantine-color-black': theme.colors.customGreen[0],
     '--mantine-color-body': theme.colors.customGreen[0],
+    '--code-bg': theme.colors.customBlue[0],
   },
   dark: {
     '--mantine-color-dimmed': theme.colors.customGreen[0],
@@ -94,5 +93,7 @@ export const resolver: CSSVariablesResolver = (theme) => ({
     '--mantine-color-white': theme.colors.customGreen[0],
     '--mantine-color-black': theme.colors.customBlue[0],
     '--mantine-color-body': theme.colors.customBlue[0],
+    '--code-bg': theme.colors.customGreen[0],
+    '--switch-thumb-bg': theme.colors.customBlue[0],
   },
 });
