@@ -1,31 +1,38 @@
 ---
 title: 'First steps'
-description: 'Creating a simple site in Next.JS with a Markdown blog'
-publishDate: '2025-03-31T13:55:00Z'
+description: 'Setting up a simple site with Mantine and Next.JS'
+publishDate: '2025-03-31T08:00:00Z'
 published: true
 ---
 
 # First steps
 
-You can read this. That's good. It means I've built a functional blog in Next.JS that displays MDX content in a legible manner.
+I want to build a blog that displays MDX content so I can quickly throw together posts documenting this project as I go.
 
-So far, I've built and set up:
+Before we get to anything complicated, I'm going to need the absolute foundations of this project.
+
+So, I've built and set up:
+- a basic site layout with navigation and a landing page
 - code quality checks and tests that run before commits and as part of build pipelines
 - automated deployment to a DigitalOcean droplet
-- custom components, complete with Storybook support
-- custom functionality, covered in unit tests 
-- support for displaying React components inside MDX files
-- a landing page that displays metadata based on MDX files in my '/blog' folder
-- breadcrumb navigation 
 - a perfect score on Google Lighthouse checks
 
-Hopefully, the foundations of the blog and the wider project are pretty solid now.
+From here, we can start to build some cool stuff.
 
 ## Staring blocks
 
-It's worth mentioning here that I've not started from zero on this project.
+First, some history on the project so far.
 
 I've had a DigitalOcean droplet running for a few years. I've built Python scripts that scoop up football data on a daily basis and save it to a MariaDB database. I've also written an API using FastAPI to expose that data to the internet.
+
+At various points, my focus has shifted. At points, I tried to:
+- use PyTorch and a bit of Bayseian theory to calculate match outcomes
+- take datasets to generate a score for the impact an individual has had on a match
+- generate text reports based on live API data, converted to speech
+
+The goals have been large. The process has been fun. The results have been mixed.
+
+Here, I'm aiming for a more modest goal of building a front end for my existing database and API, increasing in complexity as I go.
 
 While I've been using a [Quasar](https://quasar.dev) Vue.JS front end for a while, I wanted to start again using React and Next.JS.
 
@@ -61,32 +68,9 @@ The 'Welcome' component lives in a folder made up of files that demonstrate how 
 - [`Welcome.test.tsx`](https://github.com/mantinedev/next-app-template/blob/master/components/Welcome/Welcome.test.tsx) -  a simple component test
 - [`Welcome.tsx`](https://github.com/mantinedev/next-app-template/blob/master/components/Welcome/Welcome.tsx) - the component itself, which pulls all of this together and includes some core Mantine components
 
-Having used Quasar, I'm used to what Mantine has to offer - the documentation is also crucially very good across both projects. Throwing together the initial page layout wasn't too much of a concern.
+Having used Quasar, I'm used to what Mantine has to offer - the documentation is also crucially very good across both projects. 
 
-## Mark it down
-
-It was encouraging to see that [Mantine's own documentation site](https://help.mantine.dev/q/server-components) make use of [ Markdown files](https://github.com/mantinedev/mantine/blob/0b7ccbfe061b4e07c83c14747e612c89507db3b8/apps/help.mantine.dev/src/pages/q/server-components.mdx).
-
-Next.JS has [some good documentation](https://nextjs.org/docs/app/building-your-application/configuring/mdx) on setting up Markdown, crucially involving an `mdx-components.tsx` file. Mantine components work nicely with this, with things like the [Title](https://mantine.dev/core/title/) component easily pulled in to handle all heading tags.
-
-It does also support printing components straight into the blog. For example:
-
-import { Switch } from '@mantine/core';
-
-<Switch
-    label="Turn off my device"
-    description="The author takes no responsibility data lost on using this element"
-/>
-
-That means I get to show off my custom components right here in an interactive way, instead of screenshotting and describing them.
-
-## Dynamic loading and metadata
-
-On the [Posts](/posts) page, I've dynamically pulled through the list of MDX files from the project's `/blog` folder.
-
-With Frontmatter - and [this excellent guide by Joseph Rex](https://www.josephrex.me/frontmatter-with-nextjs-and-mdx/) - my MDX files contain metadata which is processed both by the blog page and by the [Posts](/posts) page. This gives me a nice SEO friendly page header, as well as info I can filter on the [Posts](/posts) page.
-
-I've built some functionality that gathers my files, extracts the metadata and then filters based on `published` and orders by `publishDate`. This lets me write blogs in advance and then set them live with a very small pull request.
+Throwing together the initial page layout wasn't too much of a concern, especially adapting the example 'Welcome' component to create my own landing page.
 
 ## Styling and theming
 
@@ -98,64 +82,7 @@ I've been looking to use [RandomA11y](https://randoma11y.com/) on a project for 
 
 You've managed to read this far, so it's probably not too bad.
 
-## Custom components
-
-To make the blog a bit more 'bloggy', I've added in:
-- BlogBreadcrumbs - an element that lists the current navigation route
-- BlogListItem - an element that displays metadata for a post and links to it
-
-The breadcrumbs make use of the base [Breadcrumb component](https://mantine.dev/core/breadcrumbs/), but with the 'home' always included. There's nothing too exciting going on here.
-
-import { BlogBreadcrumb } from '@/components/blog/BlogBreadcrumb/BlogBreadcrumb';
-
-<BlogBreadcrumb 
-    breadcrumbItems={[{ href: "/posts", title: "Posts" }, { href: "/posts/first-steps", title: "First steps" },]} 
-/>
-
-The blog list element is also essentially a structured [Card component](https://mantine.dev/core/card/), populating with the respective prop data. Here they are in a grid to show even heights, even when data is missing.
-
-import { BlogListItem } from '@/components/blog/BlogListItem/BlogListItem';
-
-<BlogListItem 
-    title='Hello world!' 
-    description='This links to the first blog post' 
-    slug='hello-world' 
-    published={true}
-    publishDate='2025-03-01T00:00:00' 
-/>
-
-The card component doesn't have a style prop for spacing between elements, so I've used Mantine's support for [CSS modules](https://mantine.dev/styles/css-modules/) to add that in instead.
-
-import { Grid, GridCol } from '@mantine/core';
-
-<Grid grow>
-    <GridCol key={ 0 } span={{ base: 12, sm: 6, lg: 4 }} mb="xl">
-        <BlogListItem 
-            title='No description' 
-            slug='hello-world'
-            published={true}
-            publishDate='2025-03-01T00:00:00' 
-        />
-    </GridCol>
-    <GridCol key={ 1 } span={{ base: 12, sm: 6, lg: 4 }} mb="xl">
-        <BlogListItem 
-            title='No publish date'
-            description='This links to the first blog post'
-            slug='hello-world'
-            published={true}
-        />
-    </GridCol>
-</Grid>
-
-## Perfect scores
-
-With all of this in place, I deployed the blog with my ['Hello world!'](/posts/hello-world) post and ran it through Lighthouse checks.
-
-Next.js and Mantine are pretty well tuned for performance, and I've included metadata for SEO, so both of those scores 100 immediately.
-
-There was an initial few tweaks to be made around accessibility scores - in particular, the spacing around the links. I also wasn't respecting heading hierarchy for aesthetic reasons, which is not a good enough reason to mess with accessibility. 
-
-With those bits sorted, this site now gets the full 100 across the board.
+Issues have arisen from Mantine's default colour scheme, which expects ten shades of each colour and uses grey shades between its absolute white and black. At various points, I've needed to extend their [theme object](https://mantine.dev/theming/theme-object/) in order to match my monochrome style. While their [Styles API](https://mantine.dev/styles/styles-api/) includes variables for most instances where I need to overwrite colours, in some cases it absolutely does not.
 
 ## A major blocker
 
@@ -163,26 +90,17 @@ At this point, I hit a significant hurdle that has derailed many a side project 
 
 It's a fairly natural instinct, I hope. This is a break from my day job, but also resembles my day job. The highs and lows are emphasised as a result. The draw of building some cool stuff is stronger and doing the admin tasks feels even more like work.
 
-The plan was to have a publishing schedule that forced cracking through the tasks at a pretty steady clip. However, I'm giving myself deadlines _for fun_. That's a pretty solid path towards burn out and letting this project go to rot.
+The plan was to have a publishing schedule that forced cracking through the tasks at a pretty steady clip. However, I'm giving myself deadlines for fun. That's a pretty solid path towards burn out and letting this project go to rot.
 
-Here's what I did about it: I gave in to that feeling. 
+Here's what I did about it: I gave in to that feeling.
 
-I went and built the next step of the project before writing this blog. Having cool stuff I want to show off was the motivator I needed to come back and finish off this first stage.
+I carried on building more of the project before coming back to writing this blog. Having cool stuff I want to show off was the push I needed to come back and finish off this write up.
 
-Although, I did then absolutely race through the first draft of this blog. It threw up a bunch of stuff I want to be part of the project that I hadn't done.
+## Everything in its right place
 
-## Testing the custom components
+So, I've ended up with:
+- a home page
+- a simple navigation menu
+- support for light/dark mode
 
-...can wait until another post. This one is long enough already, don't you think?
-
-## I made a blog
-
-Thanks to how mature and well documented Next.JS and Mantine are, pulling together a static blog made up of Markdown files has been pretty easy. What's been encouraging is how powerful everything is out of the box. There's a lot in this initial build and from here on out, it should _Just Work_.
-
-Being able to embed components in MDX is incredibly powerful. While it's possible to describe what something does, or take a screenshot, it doesn't compare to actually having the element in the page.
-
-It's also been handy in writing this post. At times, the claims I've been making about components have been lies. Embedding the components in the page exposed them pretty cleanly. That gave me reason and motivation to make them work like I thought they did.
-
-Hopefully, the foundations are now solid enough for the forseeable. Inevitably I'm going to need some quality of life improvements (should there be a 'Next' and 'Previous' link at the bottom of these pages? Probably). This should take me where I need to go, though. 
-
-Next up: pulling data from an API into the app.
+**Next time:** [building a blog that displays Markdown files](/posts/building-a-blog). Will I manage it? Who can say?

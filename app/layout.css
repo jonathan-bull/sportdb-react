@@ -1,0 +1,7 @@
+/** Dark theme overrides **/
+:where([data-mantine-color-scheme="dark"]) {
+    /** Use AppShell root class to override layout.css, which always gets called later. **/
+    .mantine-AppShell-root code {
+        color: black;
+    }
+}
