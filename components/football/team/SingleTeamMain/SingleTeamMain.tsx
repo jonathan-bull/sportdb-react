@@ -27,17 +27,19 @@ export function SingleTeamMain(props: SingleTeamProps) {
       ? ''
       : getTeamLogo(mapping, process.env.NEXT_PUBLIC_ASSET_URL ?? '');
 
+  const nameForDisplay = names.display ? names.display : names.full;
+
   return (
     <Stack>
       <SingleTeamTitle
         colourBackground={teamColours.background}
         colourText={teamColours.text}
-        compName={leagueTable?.competition.name}
-        compSeason={leagueTable?.competition.season}
-        compPos={leagueTable?.position.value}
-        compPosOrdinal={leagueTable?.position.ordinalNum}
+        compName={leagueTable?.competition?.name}
+        compSeason={leagueTable?.competition?.season}
+        compPos={leagueTable?.position?.value}
+        compPosOrdinal={leagueTable?.position?.ordinalNum}
         nameCode={names.code}
-        nameDisplay={names.display}
+        nameDisplay={nameForDisplay}
         teamLogo={teamLogo}
       />
       <SingleTeamStandings />

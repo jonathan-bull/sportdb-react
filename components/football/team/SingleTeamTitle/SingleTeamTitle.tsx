@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, Card, Divider, Grid, GridCol, Text, Title } from '@mantine/core';
+import { Avatar, Card, Divider, Flex, Grid, GridCol, Text, Title } from '@mantine/core';
 
 type SingleTeamProps = {
   colourBackground?: string;
@@ -16,20 +16,24 @@ type SingleTeamProps = {
 
 export function SingleTeamTitle(props: SingleTeamProps) {
   const {
-    colourBackground,
-    colourText,
-    compName,
-    compPos,
+    colourBackground = 'white',
+    colourText = 'black',
+    compName = '',
+    compPos = 0,
     compPosOrdinal,
-    compSeason,
+    compSeason = 0,
     nameCode,
     nameDisplay,
     teamLogo,
   } = props;
 
+  // Default code name - first three letters of display name.
+  // Trim code name to three characters and
+  const displayNameCode = nameCode ? nameCode : nameDisplay;
+
   let seasonDisplay = '';
 
-  if (typeof compSeason !== 'undefined' && typeof compName !== 'undefined') {
+  if (compSeason > 0 && compName !== '') {
     seasonDisplay = `${compSeason}/${compSeason + 1}`;
   }
 
@@ -38,21 +42,29 @@ export function SingleTeamTitle(props: SingleTeamProps) {
       <Grid align="center">
         <GridCol span={{ base: 4, xs: 2 }}>
           <Avatar h="auto" radius="xs" w="auto" alt={`Logo for ${nameDisplay}`} src={teamLogo}>
-            {nameCode}
+            {displayNameCode?.substring(0, 4).toUpperCase()}
           </Avatar>
         </GridCol>
         <GridCol span={{ base: 8, xs: 10 }}>
-          <Title order={2} size="h4" mb="sm">
-            {nameDisplay}
-          </Title>
-          {compPos && (
-            <>
-              <Divider bd={`1px solid ${colourText}`} mb="sm" />
-              <Text>
-                {compPosOrdinal} in {compName} {seasonDisplay}
-              </Text>
-            </>
-          )}
+          <Flex direction="column" gap="sm">
+            <Title order={2} size="h4">
+              {nameDisplay}
+            </Title>
+            {compName && (
+              <>
+                <Divider bd={`1px solid ${colourText}`} />
+                {compPos > 0 && compName !== '' ? (
+                  <Text>
+                    {compPosOrdinal} in {compName} {seasonDisplay}
+                  </Text>
+                ) : (
+                  <Text>
+                    {compName} {seasonDisplay}
+                  </Text>
+                )}
+              </>
+            )}
+          </Flex>
         </GridCol>
       </Grid>
     </Card>
