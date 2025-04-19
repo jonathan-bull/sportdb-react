@@ -18,15 +18,22 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
+      - name: Create env file
+        run: |
+          touch .env
+          echo API_URL=${{ secrets.API_URL }} >> .env
+          echo API_KEY=${{ secrets.API_KEY }} >> .env
+          echo NEXT_PUBLIC_ASSET_URL=${{ secrets.NEXT_PUBLIC_ASSET_URL }} >> .env
+          cat .env
       - name: Install dependencies
         run: yarn install --immutable
       - name: Run build
-        run: yarn run build
+        run: yarn build
       - name: Run Prettier
-        run: yarn run prettier:check
+        run: yarn prettier:check
       - name: Run lint
-        run: yarn run lint
+        run: yarn lint
       - name: Run typecheck
-        run: yarn run typecheck
+        run: yarn typecheck
       - name: Run Jest
-        run: yarn run jest
+        run: yarn jest

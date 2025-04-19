@@ -25,7 +25,7 @@ export const dateStringIsValid = (dateString: string): boolean => {
  *
  * @param {metadataObj[]} unfilteredData
  *
- * @returns {metadataObj[]} Filtered metadata, or an empty array.
+ * @return {metadataObj[]} Filtered metadata, or an empty array.
  */
 export const filterMetadata = (unfilteredData: MetadataObj[]): MetadataObj[] => {
   if (unfilteredData.length === 0) {
@@ -57,7 +57,7 @@ export const filterMetadata = (unfilteredData: MetadataObj[]): MetadataObj[] => 
  * Converts any metadata into the correct type.
  * Returns that metadata.
  *
- * @returns {MetadataObj[]} An array of metadata objects.
+ * @return {MetadataObj[]} An array of metadata objects.
  */
 export const fetchPostData = (): MetadataObj[] => {
   const slugs: string[] = fs.readdirSync(path.join(process.cwd(), 'blog'));
