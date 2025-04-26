@@ -10,9 +10,21 @@ export default function HomePage() {
         A modest attempt to document, analyse and solve the sport of association football
       </Text>
       <Text ta="center" mt="xl" size="lg">
-        Teams | People | Competitions | Statistics |{' '}
+        <Anchor fw={500} underline="always" href="/teams">
+          Teams
+        </Anchor>{' '}
+        | People | Competitions | Statistics |{' '}
         <Anchor fw={500} underline="always" href="/posts">
           Posts
+        </Anchor>
+      </Text>
+      <Text ta="center" mt="xl" size="lg">
+        <Anchor fw={500} underline="always" href="https://storybook.solving.football">
+          Storybook components
+        </Anchor>{' '}
+        |{' '}
+        <Anchor fw={500} underline="always" href="https://github.com/jonathan-bull/sportdb-react">
+          GitHub repository
         </Anchor>
       </Text>
     </Container>
