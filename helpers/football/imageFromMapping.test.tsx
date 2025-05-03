@@ -36,9 +36,9 @@ it('returns an empty string if a mapping array does not contain an FM value', ()
 });
 
 it('returns the expected string if the mapping array contains an FM value', () => {
-  expect(getTeamLogo(validMapping, testURL)).toBe(`${testURL}01010101.png`);
+  expect(getTeamLogo(validMapping, testURL)).toBe(`${testURL}logos/01010101.png`);
 });
 
 it('returns the expected string if the mapping array contains an FM value, even if there is no trailing slash on our URL', () => {
-  expect(getTeamLogo(validMapping, 'https://crouton.net')).toBe(`${testURL}01010101.png`);
+  expect(getTeamLogo(validMapping, 'https://crouton.net')).toBe(`${testURL}logos/01010101.png`);
 });

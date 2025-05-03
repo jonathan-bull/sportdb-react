@@ -1,6 +1,19 @@
 import { displayTeamColours } from '@/helpers/football/displayTeamColours';
-import { getTeamLogo } from '@/helpers/football/imageFromMapping';
-import { DisplayEntity, DisplayTeam } from '@/types/display/Teams';
+import { getTeamKit, getTeamLogo } from '@/helpers/football/imageFromMapping';
+import {
+  SingleColourObj,
+  SingleColourObjKeys,
+  TeamColours,
+  TeamCompColours,
+  TeamMapping,
+} from '@/types/api/Teams';
+import {
+  DisplayColour,
+  DisplayColourSingle,
+  DisplayEntity,
+  DisplayKitTypes,
+  DisplayTeam,
+} from '@/types/display/Teams';
 
 /**
  * Converts the incoming DisplayTeam object into an object for rendering.
@@ -49,6 +62,111 @@ export const convertTeamForDisplay = (singleTeam: DisplayTeam): DisplayEntity =>
     displayName: determinedDisplayName,
     teamLogo: displayTeamLogo,
   };
+};
+
+export const reduceColourObjectToArray = (singleColour: SingleColourObj): string[] => {
+  if (
+    typeof singleColour === 'undefined' ||
+    singleColour === null ||
+    Object.keys(singleColour).length === 0
+  ) {
+    return [];
+  }
+
+  // Drop the 'split' key, so we only have SingleColour values.
+  const { split, ...reducedColour } = singleColour;
+
+  return Object.values(reducedColour).map((singleColourString) => {
+    return singleColourString.val;
+  });
+};
+
+/**
+ *
+ * @param {SingleColourObj} singleColour
+ *
+ * @return {string} The colour converted to a gradient.
+ */
+export const convertColoursToGradient = (
+  singleColour: SingleColourObj,
+  useSplit: boolean
+): string => {
+  if (Object.values(singleColour).length === 0) {
+    return '';
+  }
+
+  if (useSplit === false) {
+    const reducedColours = reduceColourObjectToArray(singleColour);
+    // Shout out: https://stackoverflow.com/a/48070260.
+    const upDownArr = reducedColours.concat(reducedColours.slice(0, -1).reverse());
+
+    return `linear-gradient(90deg, ${upDownArr.join(',')}) 100%/${(upDownArr.length * 1.25 * 100).toString()}%`;
+  }
+
+  const colourSplitArr: string[] = singleColour.split.split(',');
+
+  if (colourSplitArr.length === 0) {
+    return '';
+  }
+
+  const gradientStrings = [];
+  const possibleKeys = ['1', '2', '3', '4', 'split'];
+  let gradientTotal = 0;
+
+  for (const colourVal in colourSplitArr) {
+    const splitColour = colourSplitArr[colourVal].split('-');
+    const splitColourKey: SingleColourObjKeys = splitColour[0] as SingleColourObjKeys;
+
+    if (
+      splitColourKey in possibleKeys &&
+      typeof singleColour[splitColourKey] === 'object' &&
+      Object.hasOwn(singleColour[splitColourKey], 'val') === true
+    ) {
+      gradientStrings.push(`${singleColour[splitColourKey].val} ${gradientTotal}%`);
+      gradientTotal += Number(splitColour[1]);
+      gradientStrings.push(`${singleColour[splitColourKey].val} ${gradientTotal}%`);
+    }
+  }
+
+  return `linear-gradient(-45deg, ${gradientStrings.join()})`;
+};
+
+const generateSingleDisplayColour = (
+  fullColours: TeamCompColours,
+  compID: string,
+  teamMapping: TeamMapping[],
+  kitType: DisplayKitTypes = 'home'
+): DisplayColourSingle => {
+  return {
+    colours: reduceColourObjectToArray(fullColours[kitType]),
+    backgrounds: {
+      splitGradient: convertColoursToGradient(fullColours[kitType], true),
+      equalGradient: convertColoursToGradient(fullColours[kitType], false),
+    },
+    kitImage: getTeamKit(teamMapping, compID, process.env.NEXT_PUBLIC_ASSET_URL ?? '', kitType),
+  };
+};
+
+export const convertColoursForDisplay = (
+  teamColours: TeamColours,
+  teamMapping: TeamMapping[]
+): DisplayColour[] => {
+  const convertedColours = Object.keys(teamColours).map((colourKey) => {
+    return {
+      compID: colourKey,
+      season: {
+        id: teamColours[colourKey].season,
+        display: convertSeasonForDisplay(teamColours[colourKey].season),
+      },
+      kitColours: {
+        home: generateSingleDisplayColour(teamColours[colourKey], colourKey, teamMapping, 'home'),
+        away: generateSingleDisplayColour(teamColours[colourKey], colourKey, teamMapping, 'away'),
+        third: generateSingleDisplayColour(teamColours[colourKey], colourKey, teamMapping, 'third'),
+      },
+    };
+  });
+
+  return convertedColours;
 };
 
 /**

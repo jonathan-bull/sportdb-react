@@ -2,7 +2,7 @@ import { Anchor, Card, Flex, Stack, Text, Title } from '@mantine/core';
 import { TeamMapping } from '@/types/api/Teams';
 
 export function SingleTeamMapping(props: { teamMapping: TeamMapping[] }) {
-  const { teamMapping } = props;
+  const { teamMapping = [] } = props;
 
   // Filter out empty.
   const filteredMapping = teamMapping.filter((singleMap) => {

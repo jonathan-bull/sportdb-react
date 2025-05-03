@@ -2,7 +2,6 @@ import type { Meta } from '@storybook/react';
 import { SingleContentTitle } from './SingleContentTitle';
 
 const meta: Meta = {
-  title: 'Single content title',
   component: SingleContentTitle,
   decorators: [(Story) => <Story />],
   args: {

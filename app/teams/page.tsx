@@ -37,7 +37,7 @@ export default async function TeamsPage() {
         {displayTeams.length === 0 ? (
           <Text>{displayError}</Text>
         ) : (
-          <ListTeam displayTeams={displayTeams} />
+          <ListTeam displayTeams={displayTeams} displaySize="small" />
         )}
       </Container>
     </>

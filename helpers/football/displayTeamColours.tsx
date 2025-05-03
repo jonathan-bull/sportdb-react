@@ -1,4 +1,5 @@
 import { TeamColours } from '@/types/api/Teams';
+import { DisplayKitTypes } from '@/types/display/Teams';
 
 export type displayColour = {
   text: string;
@@ -17,34 +18,39 @@ export type displayColour = {
 export const displayTeamColours = (
   colours: TeamColours,
   compID: number | null = null,
-  colourType: 'home' | 'away' | 'third' = 'home'
+  colourType: DisplayKitTypes = 'home'
 ): displayColour => {
   const defaultResponse = {
     text: 'black',
     background: 'white',
   };
 
-  const colourKeys = Object.keys(colours);
-
-  if (colourKeys.length === 0) {
+  if (typeof colours === 'undefined' || Object.keys(colours).length === 0) {
     return defaultResponse;
   }
 
-  if (compID !== null && compID > 0 && colourKeys.includes(compID.toString())) {
+  const colourKeys = Object.keys(colours);
+  const lastKey = colourKeys.pop();
+
+  if (
+    compID !== null &&
+    compID > 0 &&
+    Object.keys(colours).includes(compID.toString()) &&
+    typeof colours[compID][colourType] !== 'undefined' &&
+    Object.keys(colours[compID][colourType][4]).includes('val')
+  ) {
     return {
-      text: colours[compID][colourType][4].val,
-      background: colours[compID][colourType][1].val,
+      text: colours[compID][colourType]['4'].val,
+      background: colours[compID][colourType]['1'].val,
     };
   }
 
-  const lastKey = colourKeys.pop();
-
-  if (typeof lastKey === 'undefined') {
+  if (typeof lastKey === 'undefined' || typeof colours[lastKey][colourType] === 'undefined') {
     return defaultResponse;
   }
 
   return {
-    text: colours[lastKey][colourType][4].val,
-    background: colours[lastKey][colourType][1].val,
+    text: colours[lastKey][colourType]['4'].val,
+    background: colours[lastKey][colourType]['1'].val,
   };
 };
