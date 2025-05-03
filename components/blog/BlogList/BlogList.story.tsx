@@ -22,7 +22,6 @@ const unpublishedListItem = { ...singleListItem };
 unpublishedListItem.published = false;
 
 const meta: Meta = {
-  title: 'Blog list',
   component: BlogList,
   decorators: [
     (Story) => (

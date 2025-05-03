@@ -1,6 +1,13 @@
 'use client';
 
-import { createTheme, CSSVariablesResolver, rem, virtualColor } from '@mantine/core';
+import {
+  createTheme,
+  CSSVariablesResolver,
+  rem,
+  SegmentedControl,
+  Select,
+  virtualColor,
+} from '@mantine/core';
 
 export const theme = createTheme({
   /* Put your mantine theme override here */
@@ -69,6 +76,35 @@ export const theme = createTheme({
     lg: rem(34),
     xl: rem(40),
   },
+  components: {
+    Select: Select.extend({
+      vars: () => {
+        return {
+          input: {
+            '--input-bg': 'transparent',
+            '--input-bd': 'var(--mantine-color-white)',
+          },
+          dropdown: {
+            '--popover-border-color': 'var(--mantine-color-white)',
+            backgroundColor: 'var(--mantine-color-black)',
+          },
+        };
+      },
+    }),
+    SegmentedControl: SegmentedControl.extend({
+      vars: () => {
+        return {
+          root: {
+            '--sc-color': 'var(--mantine-color-white)',
+            backgroundColor: 'transparent',
+          },
+          label: {
+            '--sc-color': 'var(--mantine-color-black)',
+          },
+        };
+      },
+    }),
+  },
 });
 
 export const resolver: CSSVariablesResolver = (theme) => ({
@@ -84,6 +120,8 @@ export const resolver: CSSVariablesResolver = (theme) => ({
     '--mantine-color-black': theme.colors.customGreen[0],
     '--mantine-color-body': theme.colors.customGreen[0],
     '--code-bg': theme.colors.customBlue[0],
+    '--tooltip-bg': theme.colors.customBlue[0],
+    '--tooltip-color': theme.colors.customGreen[0],
   },
   dark: {
     '--mantine-color-dimmed': theme.colors.customGreen[0],
@@ -95,5 +133,7 @@ export const resolver: CSSVariablesResolver = (theme) => ({
     '--mantine-color-body': theme.colors.customBlue[0],
     '--code-bg': theme.colors.customGreen[0],
     '--switch-thumb-bg': theme.colors.customBlue[0],
+    '--tooltip-bg': theme.colors.customGreen[0],
+    '--tooltip-color': theme.colors.customBlue[0],
   },
 });

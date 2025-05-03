@@ -33,3 +33,37 @@ export const getEntityImage = (
 
   return getImageByID(mapID, imageType, assetURL);
 };
+
+/**
+ * Takes an array of mapping data and filters it to get the 'FM' ID.
+ * Adds that to the URL that contains our kit images, with the .
+ *
+ * @param {TeamMapping[]} mappingData An array of mapping data.
+ * @param {string} compID The ID of the competition.
+ * @param {string} assetURL The URL of the logo asset folder.
+ *
+ * @return {string} The URL containing the image.
+ */
+export const getTeamKit = (
+  mappingData: ContentMapping[],
+  compID: string,
+  assetURL: string,
+  kitType: string = 'Home'
+): string => {
+  const mappingID = getMappingID(mappingData);
+  let kitInt = 1;
+
+  if (mappingID === '') {
+    return '';
+  }
+
+  if (kitType === 'away') {
+    kitInt = 2;
+  }
+
+  if (kitType === 'third') {
+    kitInt = 3;
+  }
+
+  return getImageByID(`${mappingID}_${kitInt.toString()}`, `kits/${compID}`, assetURL);
+};
