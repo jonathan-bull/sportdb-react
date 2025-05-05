@@ -53,7 +53,7 @@ There's going to be a lot of hitting the API, and it's going to be done fairly c
 
 With that fairly solidly planned out, it's time to build a `fetch` request wrapped in a `try` and `catch` condition.
 
-Typing a `fetch` request is tricky. I don't want to be overly specific and end up with errors from valid responses. I also don't want to be vague and use an `Any` type, otherwise, why bother with types at all? I've opted for a `JSONObject|Error` return from my function, with `JSONObject` following that old programming tradition: [stolen wholesale from a Stack Overflow question](https://stackoverflow.com/a/64117261).
+Setting the TypeScript type of a `fetch` request is tricky. I don't want to be overly specific and end up with errors from valid responses. I also don't want to be vague and use an `Any` type. That feels like a cop out. I've opted for a `JSONObject|Error` return from my function, with `JSONObject` following that old programming tradition: [stolen wholesale from a Stack Overflow question](https://stackoverflow.com/a/64117261).
 
 A few simple tests of this returned the expected data from the API. That'll do for now, I guess. There's no test coverage. Got a bit scared of where to even start with that. Decided to just plough on regardless and maybe come back to it another time.
 
@@ -179,7 +179,7 @@ And very long team names:
 
 This also takes SVGs. I hadn't even found that out until now. Nice one, Mantine.
 
-Test driving components in context can be tricky - forcing various types of objects into your component and seeing what it does. With Storybook, it's a case of deleting or changing arguments passed through. When the barrier to testing is that low, it's rude not to try everything possible combination.
+Test driving components in context can be tricky - forcing various types of objects into your component and seeing what it does. With Storybook, it's a case of deleting or changing arguments passed through. When the barrier to testing is that low, it's rude not to try every possible combination.
 
 At some point, it might even be worth building fixtures to throw into the components. Maybe not at this early stage, though.
 
