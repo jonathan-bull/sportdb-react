@@ -42,7 +42,7 @@ export function SingleTeamMapping(props: { teamMapping: TeamMapping[] }) {
       <Title order={4} c="white">
         Team data sources
       </Title>
-      <Card bd="1px solid white" c="white" bg="transparent">
+      <Card>
         {filteredMapping.length === 0 && <Text>No mapping available for this team.</Text>}
         {filteredMapping.length > 0 && displayMapping}
       </Card>

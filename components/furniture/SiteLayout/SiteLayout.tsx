@@ -6,6 +6,7 @@ import {
   AppShellHeader,
   AppShellMain,
   AppShellNavbar,
+  BackgroundImage,
   Burger,
   Container,
   Flex,
@@ -23,6 +24,8 @@ type LayoutProps = {
 
 export function SiteLayout(props: LayoutProps) {
   const [opened, { toggle }] = useDisclosure();
+  /** This will be dynamic one day. That day is not today. */
+  const backgroundImg = 'https://assets.solving.football/venues/inside/5005130.jpg';
   const { children } = props;
 
   return (
@@ -49,6 +52,7 @@ export function SiteLayout(props: LayoutProps) {
       <AppShellMain>
         <Stack align="stretch" justify="flex-start" gap="md">
           {children}
+          <BackgroundImage src={backgroundImg} />
         </Stack>
       </AppShellMain>
     </AppShell>

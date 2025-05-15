@@ -52,9 +52,7 @@ export function SingleTeamNames(props: TeamNames) {
       <Title order={4} c="white">
         Team names
       </Title>
-      <Card bd="1px solid white" bg="transparent">
-        {nameList}
-      </Card>
+      <Card>{nameList}</Card>
     </>
   );
 }
