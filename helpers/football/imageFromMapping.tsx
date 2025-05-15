@@ -1,4 +1,15 @@
 import { ContentMapping } from '@/types/api/Content';
+import { getImageByID } from './imageByID';
+
+export const getMappingID = (mappingData: ContentMapping[], mapType: string = 'FM'): string => {
+  const reducedMapping = mappingData.filter((singleMap) => singleMap.sourceName === mapType);
+
+  if (reducedMapping.length === 0) {
+    return '';
+  }
+
+  return reducedMapping[0].sourceID;
+};
 
 /**
  * Takes an array of mapping data and filters it to get the 'FM' ID.
@@ -9,13 +20,16 @@ import { ContentMapping } from '@/types/api/Content';
  *
  * @return {string} The URL containing the image.
  */
-export const getTeamLogo = (mappingData: ContentMapping[], assetURL: string): string => {
-  const reducedMapping = mappingData.filter((singleMap) => singleMap.sourceName === 'FM');
+export const getEntityImage = (
+  mappingData: ContentMapping[],
+  imageType: string,
+  assetURL: string
+): string => {
+  const mapID = getMappingID(mappingData);
 
-  if (reducedMapping.length === 0) {
-    return '';
+  if (mapID === '') {
+    return mapID;
   }
 
-  const slashedURL = assetURL.endsWith('/') ? assetURL : `${assetURL}/`;
-  return `${slashedURL}${reducedMapping[0].sourceID}.png`;
+  return getImageByID(mapID, imageType, assetURL);
 };

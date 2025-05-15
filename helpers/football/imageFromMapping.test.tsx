@@ -1,5 +1,5 @@
 import { ContentMapping } from '@/types/api/Content';
-import { getTeamLogo } from './imageFromMapping';
+import { getEntityImage } from './imageFromMapping';
 
 const testURL = 'https://crouton.net/';
 const testMapping: ContentMapping[] = [
@@ -27,18 +27,24 @@ const validMapping: ContentMapping[] = [
   },
 ];
 
+const singleFolder = 'logos';
+
 it('returns an empty string if an empty mapping array is provided', () => {
-  expect(getTeamLogo([], testURL)).toBe('');
+  expect(getEntityImage([], singleFolder, testURL)).toBe('');
 });
 
 it('returns an empty string if a mapping array does not contain an FM value', () => {
-  expect(getTeamLogo(testMapping, testURL)).toBe('');
+  expect(getEntityImage(testMapping, singleFolder, testURL)).toBe('');
 });
 
 it('returns the expected string if the mapping array contains an FM value', () => {
-  expect(getTeamLogo(validMapping, testURL)).toBe(`${testURL}01010101.png`);
+  expect(getEntityImage(validMapping, singleFolder, testURL)).toBe(
+    `${testURL}${singleFolder}/01010101.png`
+  );
 });
 
 it('returns the expected string if the mapping array contains an FM value, even if there is no trailing slash on our URL', () => {
-  expect(getTeamLogo(validMapping, 'https://crouton.net')).toBe(`${testURL}01010101.png`);
+  expect(getEntityImage(validMapping, singleFolder, 'https://crouton.net')).toBe(
+    `${testURL}${singleFolder}/01010101.png`
+  );
 });

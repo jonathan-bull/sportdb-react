@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { Group, SegmentedControl } from '@mantine/core';
+import { useLocalStorage } from '@mantine/hooks';
 import { ListContent } from '@/components/football/content/ListContent/ListContent';
 import { ListPaging } from '@/components/football/content/ListPaging/ListPaging';
 import { DisplayEntity } from '@/types/display/Content';
@@ -15,7 +15,10 @@ type ListContainerProps = {
 
 export function ListContainer(props: ListContainerProps) {
   const { displayContent, pageSlug, currentPage = 1, maxPage = 1 } = props;
-  const [viewType, setViewType] = useState('row');
+  const [viewType, setViewType] = useLocalStorage({
+    key: `container-view-${pageSlug}`,
+    defaultValue: 'row',
+  });
 
   return (
     <>

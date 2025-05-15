@@ -21,6 +21,7 @@ jobs:
             git fetch
             git checkout main
             git pull
+            rm .env
             touch .env
             echo API_URL=${{ secrets.API_URL }} >> .env
             echo API_KEY=${{ secrets.API_KEY }} >> .env

@@ -51,7 +51,7 @@ export function SingleContentMapping(props: { contentMapping: ContentMapping[] }
       <Title order={4} c="white">
         Data sources
       </Title>
-      <Card bd="1px solid white" c="white" bg="transparent">
+      <Card bd="1px solid white" c="white" bg="black">
         {filteredMapping.length === 0 && <Text>No mapping available for this content.</Text>}
         {filteredMapping.length > 0 && displayMapping}
       </Card>

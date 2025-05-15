@@ -1,5 +1,5 @@
 import { displayTeamColours } from '@/helpers/football/displayTeamColours';
-import { getTeamLogo } from '@/helpers/football/imageFromMapping';
+import { getEntityImage } from '@/helpers/football/imageFromMapping';
 import { SingleCompetitionMaster } from '@/types/api/CompetitionMaster';
 import { SinglePerson } from '@/types/api/People';
 import { SingleVenue } from '@/types/api/Venues';
@@ -54,7 +54,7 @@ export const convertTeamForDisplay = (singleTeam: DisplayTeam): DisplayEntity =>
   const displayTeamLogo =
     typeof singleTeam.mapping === 'undefined' || singleTeam.mapping.length === 0
       ? ''
-      : getTeamLogo(singleTeam.mapping, process.env.NEXT_PUBLIC_ASSET_URL ?? '');
+      : getEntityImage(singleTeam.mapping, 'logos', process.env.NEXT_PUBLIC_ASSET_URL ?? '');
 
   const displayColours = displayTeamColours(singleTeam.colours ?? {});
 
