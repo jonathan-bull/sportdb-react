@@ -1,6 +1,8 @@
 import { displayTeamColours } from '@/helpers/football/displayTeamColours';
 import { getTeamLogo } from '@/helpers/football/imageFromMapping';
-import { DisplayEntity, DisplayTeam } from '@/types/display/Teams';
+import { SingleVenue } from '@/types/api/Venues';
+import { DisplayEntity } from '@/types/display/Content';
+import { DisplayTeam } from '@/types/display/Teams';
 
 /**
  * Converts the incoming DisplayTeam object into an object for rendering.
@@ -47,7 +49,46 @@ export const convertTeamForDisplay = (singleTeam: DisplayTeam): DisplayEntity =>
     detailStart: singleTeam.leagueTable?.position?.ordinalNum ?? '',
     codeName: singleTeam.names.code,
     displayName: determinedDisplayName,
-    teamLogo: displayTeamLogo,
+    logo: displayTeamLogo,
+  };
+};
+
+export const convertVenueForDisplay = (singleVenue: SingleVenue): DisplayEntity => {
+  const venueName = singleVenue.the ? 'The ' + singleVenue.name : singleVenue.name;
+  let beforeString = '';
+  let separatorString = '';
+  let afterString = '';
+
+  if (
+    typeof singleVenue.built !== 'undefined' &&
+    singleVenue.built !== null &&
+    singleVenue.built > 0
+  ) {
+    beforeString = 'Built';
+    separatorString = 'in';
+    afterString = singleVenue.built.toString();
+  }
+
+  if (
+    typeof singleVenue.capacity !== 'undefined' &&
+    singleVenue.capacity !== null &&
+    singleVenue.capacity > 0
+  ) {
+    beforeString = 'Capacity';
+    separatorString = 'of';
+    afterString = singleVenue.capacity.toString();
+  }
+
+  return {
+    id: singleVenue.id,
+    bgColour: 'white',
+    textColour: 'black',
+    detailStart: beforeString,
+    detailSeparator: separatorString,
+    detailEnd: afterString,
+    codeName: '',
+    displayName: venueName,
+    logo: '',
   };
 };
 

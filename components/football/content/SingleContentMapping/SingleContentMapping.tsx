@@ -1,11 +1,11 @@
 import { Anchor, Card, Flex, Stack, Text, Title } from '@mantine/core';
 import { ContentMapping } from '@/types/api/Content';
 
-export function SingleContentMapping(props: { ContentMapping: ContentMapping[] }) {
-  const { ContentMapping } = props;
+export function SingleContentMapping(props: { contentMapping: ContentMapping[] }) {
+  const { contentMapping } = props;
 
   // Filter out empty.
-  const filteredMapping = ContentMapping.filter((singleMap) => {
+  const filteredMapping = contentMapping.filter((singleMap) => {
     return Object.hasOwn(singleMap, 'sourceName') && Object.hasOwn(singleMap, 'sourceID');
   });
 
@@ -40,10 +40,10 @@ export function SingleContentMapping(props: { ContentMapping: ContentMapping[] }
   return (
     <>
       <Title order={4} c="white">
-        Team data sources
+        Data sources
       </Title>
       <Card bd="1px solid white" c="white" bg="transparent">
-        {filteredMapping.length === 0 && <Text>No mapping available for this team.</Text>}
+        {filteredMapping.length === 0 && <Text>No mapping available for this content.</Text>}
         {filteredMapping.length > 0 && displayMapping}
       </Card>
     </>

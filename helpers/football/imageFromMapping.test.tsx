@@ -1,8 +1,8 @@
-import { TeamMapping } from '@/types/api/Teams';
+import { ContentMapping } from '@/types/api/Content';
 import { getTeamLogo } from './imageFromMapping';
 
 const testURL = 'https://crouton.net/';
-const testMapping: TeamMapping[] = [
+const testMapping: ContentMapping[] = [
   {
     displayName: 'Test',
     sourceID: '123',
@@ -17,7 +17,7 @@ const testMapping: TeamMapping[] = [
   },
 ];
 
-const validMapping: TeamMapping[] = [
+const validMapping: ContentMapping[] = [
   ...testMapping,
   {
     displayName: 'Testing',
