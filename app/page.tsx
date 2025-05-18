@@ -13,7 +13,11 @@ export default function HomePage() {
         <Anchor fw={500} underline="always" href="/teams">
           Teams
         </Anchor>{' '}
-        | People | Competitions | Statistics |{' '}
+        | People | Competitions |{' '}
+        <Anchor fw={500} underline="always" href="/venues">
+          Venues
+        </Anchor>{' '}
+        | Statistics |{' '}
         <Anchor fw={500} underline="always" href="/posts">
           Posts
         </Anchor>

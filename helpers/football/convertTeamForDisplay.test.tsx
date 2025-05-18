@@ -22,6 +22,6 @@ it('a basic display team object should return the minimum response', () => {
     displayName: 'My test',
     detailEnd: '',
     detailStart: '',
-    teamLogo: '',
+    logo: '',
   });
 });

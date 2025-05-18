@@ -1,20 +1,10 @@
-import { TeamColours, TeamLeague, TeamMapping, TeamNames } from '@/types/api/Teams';
+import { ContentMapping } from '@/types/api/Content';
+import { TeamColours, TeamLeague, TeamNames } from '@/types/api/Teams';
 
 export type DisplayTeam = {
   id: number;
   names: TeamNames;
   leagueTable?: TeamLeague;
-  mapping?: TeamMapping[];
+  mapping?: ContentMapping[];
   colours?: TeamColours;
-};
-
-export type DisplayEntity = {
-  id: number;
-  bgColour?: string;
-  textColour?: string;
-  detailEnd?: string;
-  detailStart?: string;
-  codeName?: string;
-  displayName?: string;
-  teamLogo?: string;
 };

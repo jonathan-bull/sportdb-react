@@ -1,9 +1,9 @@
 import { Container, Text, Title } from '@mantine/core';
-import { ListTeam } from '@/components/football/team/ListTeam/ListTeam';
+import { ListContent } from '@/components/football/content/ListContent/ListContent';
 import { apiRequest } from '@/helpers/api/api-request';
 import { convertTeamForDisplay } from '@/helpers/football/convertForDisplay';
 import { SingleTeam } from '@/types/api/Teams';
-import { DisplayEntity } from '@/types/display/Teams';
+import { DisplayEntity } from '@/types/display/Content';
 
 export function generateMetadata() {
   return {
@@ -37,7 +37,7 @@ export default async function TeamsPage() {
         {displayTeams.length === 0 ? (
           <Text>{displayError}</Text>
         ) : (
-          <ListTeam displayTeams={displayTeams} />
+          <ListContent linkSlug="teams" displayContent={displayTeams} />
         )}
       </Container>
     </>

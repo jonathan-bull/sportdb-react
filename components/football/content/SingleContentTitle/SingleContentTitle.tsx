@@ -23,6 +23,7 @@ type SingleContentProps = {
   nameDisplay?: string;
   image?: string;
   size?: string;
+  hasImage?: boolean;
   hasBorder?: boolean;
 };
 
@@ -38,6 +39,7 @@ export function SingleContentTitle(props: SingleContentProps) {
     image,
     size = 'normal',
     hasBorder = true,
+    hasImage = true,
   } = props;
 
   // Default code name - first three letters of display name.
@@ -52,6 +54,16 @@ export function SingleContentTitle(props: SingleContentProps) {
   const displayText = useDefaultColourPalette ? colourText : colourBackground;
   const displayBorder = useDefaultColourPalette ? colourText : colourBackground;
 
+  const leftColumnSpan = {
+    base: size === 'small' ? 2 : 4,
+    xs: size === 'small' ? 1 : 2,
+  };
+
+  const rightColumnSpan = {
+    base: size === 'small' ? 10 : 8,
+    xs: size === 'small' ? 11 : 10,
+  };
+
   return (
     <Card
       c={displayText}
@@ -60,28 +72,20 @@ export function SingleContentTitle(props: SingleContentProps) {
       bd={hasBorder ? `1px solid ${displayBorder}` : ``}
     >
       <Grid gutter={size === 'small' ? 'xs' : 'sm'} align="center">
-        <GridCol
-          span={{
-            base: size === 'small' ? 2 : 4,
-            xs: size === 'small' ? 1 : 2,
-          }}
-        >
-          <Avatar
-            h="auto"
-            radius="xs"
-            w="auto"
-            alt={size === 'normal' ? nameDisplay : 'Logo'}
-            src={image}
-          >
-            {displayNameCode?.substring(0, 3).toUpperCase()}
-          </Avatar>
-        </GridCol>
-        <GridCol
-          span={{
-            base: size === 'small' ? 10 : 8,
-            xs: size === 'small' ? 11 : 10,
-          }}
-        >
+        {hasImage && (
+          <GridCol span={leftColumnSpan}>
+            <Avatar
+              h="auto"
+              radius="xs"
+              w="auto"
+              alt={size === 'normal' ? nameDisplay : 'Logo'}
+              src={image}
+            >
+              {displayNameCode?.substring(0, 3).toUpperCase()}
+            </Avatar>
+          </GridCol>
+        )}
+        <GridCol span={hasImage ? rightColumnSpan : { base: 12 }}>
           <Flex direction="column" gap={size === 'small' ? '.5rem' : 'xs'}>
             <Title
               className={size === 'small' ? classes['title--small'] : classes.title}
