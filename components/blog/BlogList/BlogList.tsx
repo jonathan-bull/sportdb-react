@@ -1,6 +1,6 @@
 import { Grid, GridCol } from '@mantine/core';
+import { BlogListItem } from '@/components/blog/BlogListItem/BlogListItem';
 import { MetadataObj } from '@/types/MetadataObj';
-import { BlogListItem } from '../BlogListItem/BlogListItem';
 
 type BlogListProps = { postList: MetadataObj[] };
 

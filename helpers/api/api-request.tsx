@@ -1,4 +1,5 @@
-import { JSONObject } from '@/types/api/Generic';
+import { apiResponse } from '@/types/api/Generic';
+import { checkResponseHasData } from './response-check';
 
 type queryObject = { [index: string]: string };
 
@@ -14,7 +15,7 @@ export async function apiRequest(
   apiPath: string,
   queryParams: queryObject = {},
   useCache: boolean = true
-): Promise<JSONObject | Error> {
+): Promise<apiResponse | Error> {
   try {
     const URLparams = new URLSearchParams(queryParams).toString();
     const apiHeaders = new Headers();
@@ -49,4 +50,56 @@ export async function apiRequest(
 
     throw new Error('Unknown error occurred');
   }
+}
+
+/**
+ * Forces a response from the API into a specific shape.
+ * This allows us to consistently handle responses.
+ *
+ * @param {apiResponse | Error} apiData The incoming API data.
+ *
+ * @return {apiResponse} A cleaned response.
+ */
+export function returnApiResponse(apiData: apiResponse | Error): apiResponse {
+  if (
+    apiData instanceof Error === true ||
+    Object.keys(apiData).length === 0 ||
+    Object.hasOwn(apiData, 'data') === false ||
+    typeof apiData.data === 'undefined' ||
+    apiData.data.length === 0 ||
+    typeof apiData.results === 'undefined' ||
+    checkResponseHasData(apiData) === false
+  ) {
+    return {
+      data: [],
+      results: {
+        total: 0,
+        limit: 0,
+        currentPage: 0,
+        maxPage: 0,
+      },
+    };
+  }
+
+  return apiData;
+}
+
+/**
+ * Queries the API and returns the response in a consistent shape.
+ * Essentially a wrapper for the other functions in this file.
+ *
+ * @param {string} apiPath string The path to hit.
+ * @param {queryObject} queryParams queryObject An object of query parameters.
+ * @param {boolean} useCache boolean Whether or not to use the cache.
+ *
+ * @return {Promise<apiResponse>} A promised API response of a reliable shape.
+ */
+export async function returnApiResponseRequest(
+  apiPath: string,
+  queryParams: queryObject = {},
+  useCache: boolean = true
+): Promise<apiResponse> {
+  const requestToApi = await apiRequest(apiPath, queryParams, useCache);
+
+  return returnApiResponse(requestToApi);
 }

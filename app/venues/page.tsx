@@ -3,19 +3,19 @@ import { searchParamsProp } from '@/types/display/Content';
 
 export function generateMetadata() {
   return {
-    title: 'Teams - solving.football',
-    description: 'Teams available in the database',
+    title: 'Venues - solving.football',
+    description: 'Venues available in the database',
   };
 }
 
-export default async function TeamsPage({ searchParams }: { searchParams: searchParamsProp }) {
+export default async function VenuesPage({ searchParams }: { searchParams: searchParamsProp }) {
   const { page = '1' } = await searchParams;
   return (
     <ListPage
-      apiKey="teams"
-      apiSlug="/teams"
-      pageTitle="Teams"
-      pageSlug="teams"
+      apiKey="venues"
+      apiSlug="/venues"
+      pageTitle="Venues"
+      pageSlug="venues"
       currentPage={page}
     />
   );

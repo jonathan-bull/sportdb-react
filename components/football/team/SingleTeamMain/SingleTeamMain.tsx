@@ -1,6 +1,6 @@
 import { Stack } from '@mantine/core';
+import { SingleContentMapping } from '@/components/football/content/SingleContentMapping/SingleContentMapping';
 import { SingleContentTitle } from '@/components/football/content/SingleContentTitle/SingleContentTitle';
-import { SingleTeamMapping } from '@/components/football/team/SingleTeamMapping/SingleTeamMapping';
 import { SingleTeamNames } from '@/components/football/team/SingleTeamNames/SingleTeamNames';
 import { convertTeamForDisplay } from '@/helpers/football/convertForDisplay';
 import { DisplayTeam } from '@/types/display/Teams';
@@ -22,7 +22,7 @@ export function SingleTeamMain(props: SingleTeamProps) {
         detailEnd={displayTeam.detailEnd}
         nameCode={displayTeam.codeName}
         nameDisplay={displayTeam.displayName}
-        image={displayTeam.teamLogo}
+        image={displayTeam.logo}
       />
       <SingleTeamNames
         full={singleTeam.names.full}
@@ -32,7 +32,7 @@ export function SingleTeamMain(props: SingleTeamProps) {
         code={singleTeam.names.code}
         nickName={singleTeam.names.nickName}
       />
-      {singleTeam.mapping && <SingleTeamMapping teamMapping={singleTeam.mapping} />}
+      {singleTeam.mapping && <SingleContentMapping contentMapping={singleTeam.mapping} />}
     </Stack>
   );
 }

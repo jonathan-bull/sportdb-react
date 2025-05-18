@@ -1,6 +1,47 @@
 import { displayTeamColours } from '@/helpers/football/displayTeamColours';
 import { getTeamLogo } from '@/helpers/football/imageFromMapping';
-import { DisplayEntity, DisplayTeam } from '@/types/display/Teams';
+import { SingleCompetitionMaster } from '@/types/api/CompetitionMaster';
+import { SinglePerson } from '@/types/api/People';
+import { SingleVenue } from '@/types/api/Venues';
+import { DisplayEntity } from '@/types/display/Content';
+import { DisplayTeam } from '@/types/display/Teams';
+
+/**
+ * Converts a singleCompetitionMaster into a DisplayEntity.
+ *
+ * @param {SingleCompetitionMaster} singleCompetitionMaster The incoming data.
+ *
+ * @return {DisplayEntity} The cleaned output.
+ */
+export const convertCompetitionMasterForDisplay = (
+  singleCompetitionMaster: SingleCompetitionMaster
+): DisplayEntity => {
+  const compName = singleCompetitionMaster.the
+    ? `The ${singleCompetitionMaster.name}`
+    : singleCompetitionMaster.name;
+
+  return {
+    id: singleCompetitionMaster.id,
+    displayName: compName,
+    codeName: singleCompetitionMaster.short ?? '',
+    detailStart: `Level ${singleCompetitionMaster.level} competition`,
+    detailEnd: singleCompetitionMaster.region,
+  };
+};
+
+/**
+ * Converts a SinglePerson into a DisplayEntity.
+ *
+ * @param {SinglePerson} singlePerson The incoming data.
+ *
+ * @return {DisplayEntity} The cleaned output.
+ */
+export const convertPersonForDisplay = (singlePerson: SinglePerson): DisplayEntity => {
+  return {
+    id: singlePerson.id,
+    displayName: singlePerson.name,
+  };
+};
 
 /**
  * Converts the incoming DisplayTeam object into an object for rendering.
@@ -47,7 +88,53 @@ export const convertTeamForDisplay = (singleTeam: DisplayTeam): DisplayEntity =>
     detailStart: singleTeam.leagueTable?.position?.ordinalNum ?? '',
     codeName: singleTeam.names.code,
     displayName: determinedDisplayName,
-    teamLogo: displayTeamLogo,
+    logo: displayTeamLogo,
+  };
+};
+
+/**
+ * Converts the incoming SingleVenue object into an object for rendering.
+ *
+ * @param {SingleVenue} singleVenue The incoming data.
+ *
+ * @return {DisplayEntity} The object to be used when displaying a team.
+ */
+export const convertVenueForDisplay = (singleVenue: SingleVenue): DisplayEntity => {
+  const venueName = singleVenue.the ? `The ${singleVenue.name}` : singleVenue.name;
+  let beforeString = '';
+  let separatorString = '';
+  let afterString = '';
+
+  if (
+    typeof singleVenue.built !== 'undefined' &&
+    singleVenue.built !== null &&
+    singleVenue.built > 0
+  ) {
+    beforeString = 'Built';
+    separatorString = 'in';
+    afterString = singleVenue.built.toString();
+  }
+
+  if (
+    typeof singleVenue.capacity !== 'undefined' &&
+    singleVenue.capacity !== null &&
+    singleVenue.capacity > 0
+  ) {
+    beforeString = 'Capacity';
+    separatorString = 'of';
+    afterString = singleVenue.capacity.toString();
+  }
+
+  return {
+    id: singleVenue.id,
+    bgColour: 'white',
+    textColour: 'black',
+    detailStart: beforeString,
+    detailSeparator: separatorString,
+    detailEnd: afterString,
+    codeName: '',
+    displayName: venueName,
+    logo: '',
   };
 };
 

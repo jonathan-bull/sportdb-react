@@ -1,6 +1,6 @@
 import { Anchor, Stack, Title } from '@mantine/core';
 import { SingleContentTitle } from '@/components/football/content/SingleContentTitle/SingleContentTitle';
-import { DisplayEntity } from '@/types/display/Teams';
+import { DisplayEntity } from '@/types/display/Content';
 
 type ListTeamProps = {
   displayTeams: DisplayEntity[] | [];
@@ -26,7 +26,7 @@ export function ListTeam(props: ListTeamProps) {
             detailEnd={displayTeam.detailEnd}
             nameCode={displayTeam.codeName}
             nameDisplay={displayTeam.displayName}
-            image={displayTeam.teamLogo}
+            image={displayTeam.logo}
           />
         </Anchor>
       ))}

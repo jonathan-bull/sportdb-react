@@ -8,9 +8,9 @@ export type displayColour = {
 /**
  * Picks the appropriate colours for the team based on incoming arguments.
  *
- * @param colours The object of team colours.
- * @param compID The ID of the competition.
- * @param colourType The type of the colour (whether the team is wearing home, away or third colours).
+ * @param {TeamColours} colours The object of team colours.
+ * @param {number | null} compID The ID of the competition.
+ * @param {'home' | 'away' | 'third'} colourType The type of the colour (whether the team is wearing home, away or third colours).
  *
  * @return {displayColour} The object containing text and background colours.
  */

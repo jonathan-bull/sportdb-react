@@ -1,5 +1,3 @@
-'use client';
-
 import { Button, Group, useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
 
 export function ColorSchemeToggle() {

@@ -5,3 +5,34 @@
         color: black;
     }
 }
+
+.mantine-AppShell-root .mantine-Pagination-control {
+    background-color: var(--mantine-color-black);
+    color: var(--mantine-color-white);
+    border-color: var(--mantine-color-white);
+}
+
+.mantine-AppShell-root .mantine-Pagination-control[data-active="true"],
+.mantine-AppShell-root .mantine-Pagination-control:hover {
+    background-color: var(--mantine-color-white);
+    color: var(--mantine-color-black);   
+}
+
+.mantine-AppShell-root .mantine-SegmentedControl-root {
+    background-color: var(--mantine-color-black);
+    color: var(--mantine-color-white);   
+    border: 1px solid  var(--mantine-color-white);   
+}
+
+.mantine-AppShell-root .mantine-SegmentedControl-root .mantine-SegmentedControl-indicator {
+    background-color: var(--mantine-color-white);
+    color: var(--mantine-color-black);   
+}
+
+.mantine-AppShell-root .mantine-SegmentedControl-root .mantine-SegmentedControl-label {
+    color: var(--mantine-color-white);   
+}
+
+.mantine-AppShell-root .mantine-SegmentedControl-root .mantine-SegmentedControl-label[data-active="true"] {
+    color: var(--mantine-color-black);   
+}
