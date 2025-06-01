@@ -36,3 +36,23 @@
 .mantine-AppShell-root .mantine-SegmentedControl-root .mantine-SegmentedControl-label[data-active="true"] {
     color: var(--mantine-color-black);   
 }
+
+.mantine-BackgroundImage-root {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    filter: grayscale(100%) opacity(10%);
+    z-index: -1;
+}
+
+.mantine-AppShell-root .mantine-Card-root {
+    background-color: var(--mantine-color-black);
+    color: var(--mantine-color-white);
+    border: 1px solid;
+}
+
+.mantine-AppShell-root .mantine-Avatar-image {
+    object-fit: contain;
+}

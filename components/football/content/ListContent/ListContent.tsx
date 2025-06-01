@@ -28,6 +28,7 @@ export function ListContent(props: ListContentProps) {
           className={`list-content-single--${displayStyle}`}
         >
           <SingleContentTitle
+            displayType={displayStyle}
             size="small"
             key={singleDisplayContent.id}
             colourBackground={singleDisplayContent.bgColour}

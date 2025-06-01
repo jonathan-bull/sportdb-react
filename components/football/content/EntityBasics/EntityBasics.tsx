@@ -24,7 +24,7 @@ export function EntityBasics(props: EntityBasicsProps) {
       <Title order={4} c="white">
         {basicsLabel} detail
       </Title>
-      <Card bd="1px solid white" bg="transparent">
+      <Card bd="1px solid white" bg="black">
         {dataList}
       </Card>
     </>

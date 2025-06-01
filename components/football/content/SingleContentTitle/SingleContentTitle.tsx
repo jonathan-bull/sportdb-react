@@ -23,6 +23,7 @@ type SingleContentProps = {
   nameCode?: string;
   nameDisplay?: string;
   image?: string;
+  displayType?: string;
   size?: string;
   hasImage?: boolean;
   hasBorder?: boolean;
@@ -38,6 +39,7 @@ export function SingleContentTitle(props: SingleContentProps) {
     nameCode,
     nameDisplay,
     image,
+    displayType = 'row',
     size = 'normal',
     hasBorder = true,
     hasImage = true,
@@ -52,15 +54,21 @@ export function SingleContentTitle(props: SingleContentProps) {
   const displayText = useDefaultColourPalette ? colourText : colourBackground;
   const displayBorder = useDefaultColourPalette ? colourText : colourBackground;
 
-  const leftColumnSpan = {
-    base: size === 'small' ? 2 : 4,
-    xs: size === 'small' ? 1 : 2,
-  };
+  const leftColumnSpan =
+    displayType === 'card'
+      ? { base: 12 }
+      : {
+          base: size === 'small' ? 2 : 4,
+          xs: size === 'small' ? 1 : 2,
+        };
 
-  const rightColumnSpan = {
-    base: size === 'small' ? 10 : 8,
-    xs: size === 'small' ? 11 : 10,
-  };
+  const rightColumnSpan =
+    displayType === 'card'
+      ? { base: 12 }
+      : {
+          base: size === 'small' ? 10 : 8,
+          xs: size === 'small' ? 11 : 10,
+        };
 
   const avatarString = nameCode
     ? nameCode
@@ -73,10 +81,16 @@ export function SingleContentTitle(props: SingleContentProps) {
       p={size === 'small' ? '.5rem' : 'sm'}
       bd={hasBorder ? `1px solid ${displayBorder}` : ``}
     >
-      <Grid gutter={size === 'small' ? 'xs' : 'sm'} align="center">
+      <Grid gutter={size === 'small' ? 'xs' : 'sm'} align="stretch">
         {hasImage && (
           <GridCol span={leftColumnSpan}>
-            <Avatar radius="xs" alt={size === 'normal' ? nameDisplay : 'Logo'} src={image ?? null}>
+            <Avatar
+              radius="xs"
+              h="100%"
+              w="100%"
+              alt={size === 'normal' ? nameDisplay : 'Logo'}
+              src={image ?? null}
+            >
               {avatarString}
             </Avatar>
           </GridCol>
