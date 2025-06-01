@@ -2,7 +2,6 @@ import type { Meta } from '@storybook/react';
 import { ListTeam } from './ListTeam';
 
 const meta: Meta = {
-  title: 'List of teams',
   component: ListTeam,
   decorators: [(Story) => <Story />],
   args: {
@@ -39,9 +38,9 @@ export default meta;
 
 export const Default = meta;
 
-export const Small = {
+export const Large = {
   ...meta,
   args: {
-    displayTeams: [],
+    displaySize: 'large',
   },
 };

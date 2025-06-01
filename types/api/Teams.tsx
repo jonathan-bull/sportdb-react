@@ -27,21 +27,25 @@ export type SingleColour = {
   b: number;
 };
 
+export type SingleColourObjKeys = '1' | '2' | '3' | '4' | 'split';
+
 export type SingleColourObj = {
-  1: SingleColour;
-  2: SingleColour;
-  3: SingleColour;
-  4: SingleColour;
+  '1': SingleColour;
+  '2': SingleColour;
+  '3': SingleColour;
+  '4': SingleColour;
   split: string;
 };
 
+export type TeamCompColours = {
+  home: SingleColourObj;
+  away: SingleColourObj;
+  third: SingleColourObj;
+  season: number;
+};
+
 export type TeamColours = {
-  [key: string]: {
-    home: SingleColourObj;
-    away: SingleColourObj;
-    third: SingleColourObj;
-    season: number;
-  };
+  [key: string]: TeamCompColours;
 };
 
 export type TeamLeague = {

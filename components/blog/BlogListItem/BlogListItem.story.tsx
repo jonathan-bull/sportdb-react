@@ -3,7 +3,6 @@ import { Container } from '@mantine/core';
 import { BlogListItem } from './BlogListItem';
 
 const meta: Meta = {
-  title: 'Blog list item',
   component: BlogListItem,
   decorators: [
     (Story) => (

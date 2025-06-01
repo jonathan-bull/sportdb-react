@@ -2,17 +2,30 @@ import { Stack } from '@mantine/core';
 import { SingleContentMapping } from '@/components/football/content/SingleContentMapping/SingleContentMapping';
 import { SingleContentTitle } from '@/components/football/content/SingleContentTitle/SingleContentTitle';
 import { SingleTeamNames } from '@/components/football/team/SingleTeamNames/SingleTeamNames';
-import { convertTeamForDisplay } from '@/helpers/football/convertForDisplay';
+import {
+  convertColoursForDisplay,
+  convertTeamForDisplay,
+} from '@/helpers/football/convertForDisplay';
 import { DisplayTeam } from '@/types/display/Teams';
+import { SingleTeamColours } from '../SingleTeamColours/SingleTeamColours';
 
 type SingleTeamProps = {
-  singleTeam: DisplayTeam;
+  singleTeam: Partial<DisplayTeam>;
 };
 
 export function SingleTeamMain(props: SingleTeamProps) {
-  const { singleTeam } = props;
+  const { singleTeam = {} } = props;
 
-  const displayTeam = convertTeamForDisplay(singleTeam);
+  if (Object.keys(singleTeam).length === 0) {
+    return;
+  }
+
+  const displayTeam = convertTeamForDisplay(singleTeam as DisplayTeam);
+  const displayColours = convertColoursForDisplay(
+    typeof singleTeam.colours !== 'undefined' ? singleTeam.colours : {},
+    typeof singleTeam.mapping !== 'undefined' ? singleTeam.mapping : []
+  );
+
   return (
     <Stack>
       <SingleContentTitle
@@ -24,14 +37,17 @@ export function SingleTeamMain(props: SingleTeamProps) {
         nameDisplay={displayTeam.displayName}
         image={displayTeam.logo}
       />
-      <SingleTeamNames
-        full={singleTeam.names.full}
-        short={singleTeam.names.short}
-        display={singleTeam.names.display}
-        shortAlt={singleTeam.names.shortAlt}
-        code={singleTeam.names.code}
-        nickName={singleTeam.names.nickName}
-      />
+      {singleTeam.colours && <SingleTeamColours teamColours={displayColours} />}
+      {singleTeam.names && (
+        <SingleTeamNames
+          full={singleTeam.names.full}
+          short={singleTeam.names.short}
+          display={singleTeam.names.display}
+          shortAlt={singleTeam.names.shortAlt}
+          code={singleTeam.names.code}
+          nickName={singleTeam.names.nickName}
+        />
+      )}
       {singleTeam.mapping && <SingleContentMapping contentMapping={singleTeam.mapping} />}
     </Stack>
   );

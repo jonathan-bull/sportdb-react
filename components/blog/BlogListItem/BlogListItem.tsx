@@ -20,9 +20,9 @@ export function BlogListItem(props: BlogListItemProps) {
   return (
     slug &&
     published && (
-      <Card c="black" mb="md" className={classes.container}>
+      <Card mb="md" className={classes.container}>
         <CardSection className={classes.section}>
-          <Anchor c="black" href={`/posts/${slug}`}>
+          <Anchor href={`/posts/${slug}`}>
             <Title order={2} size="h3" mb="md">
               {title}
             </Title>
