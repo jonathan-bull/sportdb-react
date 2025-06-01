@@ -9,7 +9,10 @@ type siteNavLink = {
 export function SiteNav() {
   const siteNavLinks: siteNavLink[] = [
     { label: 'Home', slug: '/' },
+    { label: 'Competitions', slug: '/competitions' },
+    { label: 'People', slug: '/people' },
     { label: 'Teams', slug: '/teams' },
+    { label: 'Venues', slug: '/venues' },
     { label: 'Posts', slug: '/posts' },
   ];
 

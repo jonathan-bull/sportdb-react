@@ -1,3 +1,5 @@
+import { ContentMapping } from '@/types/api/Content';
+
 export type TeamNames = {
   full: string;
   display: string;
@@ -69,13 +71,6 @@ export type TeamLeague = {
   };
 };
 
-export type TeamMapping = {
-  displayName: string;
-  sourceName: string;
-  sourceID: string;
-  sourceURL: string;
-};
-
 export type SingleTeam = {
   id: number;
   name: string;
@@ -84,12 +79,14 @@ export type SingleTeam = {
   competitionHistory: TeamCompetition[];
   logo: string;
   leagueTable: TeamLeague;
-  mapping: TeamMapping[];
+  mapping: ContentMapping[];
   names: TeamNames;
 };
 
 export type Teams = {
   teams: SingleTeam[];
+  total: number;
   limit: number;
   currentPage: number;
+  maxPage: number;
 };

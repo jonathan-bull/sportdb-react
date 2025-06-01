@@ -1,0 +1,22 @@
+.list-content--card {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: stretch;
+}
+
+.list-content-single--card {
+    align-self: stretch;
+    width: calc( 50% - 0.85rem );
+
+    @media (min-width: $mantine-breakpoint-md) {
+        width: calc( 33.3% - 0.85rem );
+    }
+
+    @media (min-width: $mantine-breakpoint-xl) {
+        width: calc( 25% - 0.85rem );
+    }
+}
+
+.list-content-single--card > div {
+    height: 100%;
+}

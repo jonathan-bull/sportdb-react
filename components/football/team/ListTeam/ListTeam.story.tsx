@@ -10,7 +10,7 @@ const meta: Meta = {
       {
         id: 123,
         displayName: 'Cardiff City',
-        teamLogo: 'https://dlskitshub.com/wp-content/uploads/Cardiff-City-FC-Logo-PNG-DLS.png',
+        logo: 'https://dlskitshub.com/wp-content/uploads/Cardiff-City-FC-Logo-PNG-DLS.png',
         codeName: 'CDF',
         detailStart: '1st',
         detailEnd: 'the Premier League 2024/2025',
@@ -18,7 +18,7 @@ const meta: Meta = {
       {
         id: 456,
         displayName: 'Swansea City',
-        teamLogo: 'https://e0.365dm.com/football/badges/96/375.png',
+        logo: 'https://e0.365dm.com/football/badges/96/375.png',
         codeName: 'SWA',
         detailStart: '1st',
         detailEnd: 'the Championship 2024/2025',
@@ -26,8 +26,7 @@ const meta: Meta = {
       {
         id: 789,
         displayName: 'Wrexham',
-        teamLogo:
-          'https://cdn.freebiesupply.com/logos/large/2x/wrexham-afc-logo-png-transparent.png',
+        logo: 'https://cdn.freebiesupply.com/logos/large/2x/wrexham-afc-logo-png-transparent.png',
         codeName: 'WRE',
         detailStart: '1st',
         detailEnd: 'League One 2024/2025',

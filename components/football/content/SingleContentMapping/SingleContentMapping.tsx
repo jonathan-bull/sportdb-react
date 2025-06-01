@@ -1,11 +1,11 @@
 import { Anchor, Card, Flex, Stack, Text, Title } from '@mantine/core';
-import { TeamMapping } from '@/types/api/Teams';
+import { ContentMapping } from '@/types/api/Content';
 
-export function SingleTeamMapping(props: { teamMapping: TeamMapping[] }) {
-  const { teamMapping } = props;
+export function SingleContentMapping(props: { contentMapping: ContentMapping[] }) {
+  const { contentMapping } = props;
 
   // Filter out empty.
-  const filteredMapping = teamMapping.filter((singleMap) => {
+  const filteredMapping = contentMapping.filter((singleMap) => {
     return Object.hasOwn(singleMap, 'sourceName') && Object.hasOwn(singleMap, 'sourceID');
   });
 
@@ -23,7 +23,16 @@ export function SingleTeamMapping(props: { teamMapping: TeamMapping[] }) {
             ID
           </Text>
           {singleMap.sourceURL && (
-            <Anchor fw={700} underline="always" href={singleMap.sourceURL} target="_blank">
+            <Anchor
+              fw={700}
+              underline="always"
+              href={
+                singleMap.sourceName === 'Transfermarkt'
+                  ? `https://www.transfermarkt.com${singleMap.sourceURL}`
+                  : singleMap.sourceURL
+              }
+              target="_blank"
+            >
               {singleMap.displayName} ({singleMap.sourceID})
             </Anchor>
           )}
@@ -40,10 +49,10 @@ export function SingleTeamMapping(props: { teamMapping: TeamMapping[] }) {
   return (
     <>
       <Title order={4} c="white">
-        Team data sources
+        Data sources
       </Title>
       <Card bd="1px solid white" c="white" bg="transparent">
-        {filteredMapping.length === 0 && <Text>No mapping available for this team.</Text>}
+        {filteredMapping.length === 0 && <Text>No mapping available for this content.</Text>}
         {filteredMapping.length > 0 && displayMapping}
       </Card>
     </>
